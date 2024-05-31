@@ -49,16 +49,42 @@ that you find answers to your own questions.
 ### 8:10 am - 8:45am: Before we Start
 
 -   What is R? What is RStudio?
-    -   The term “R” is used to refer to both the programming language and the software that interprets the scripts written using it. RStudio is a popular way to write R scripts and interact with the R software. To function correctly, RStudio needs R and therefore both need to be installed on your computer.
+    -   The term “R” is used to refer to both the programming language and the
+    software that interprets the scripts written using it. RStudio is a popular
+    way to write R scripts and interact with the R software. To function correctly, RStudio needs R and therefore both need to be installed on your computer.
+    
 -   Why learn R?
-    -   R does not involve a lot of pointing and clicking. In R, the results of your analysis rely on a series of written commands, and not on remembering a succession of pointing and clicking. That is a good thing! So, if you want to redo your analysis because you collected more data, you don’t have to remember which button you clicked in which order to obtain your results. With a stored series of commands in an R script, you can repeat running them and R will process the new dataset exactly the same way as before. Working with scripts makes the steps you used in your analysis clear, and the code you write can be inspected by someone else who can give you feedback and spot mistakes.Working with scripts forces you to have a deeper understanding of what you are doing, and facilitates your learning and comprehension of the methods you use.
-    -   R is great for reproducibility (meaning someone else can get the same results as you from the same analysis with the same data).
-    -   R is widely used in several other fields like biotech and academia where analyses are expected to be reproducible. Knowing these skills can give you a leg up.
+    -   R does not involve a lot of pointing and clicking. In R, the results 
+    of your analysis rely on a series of written commands, and not on remembering
+    a succession of pointing and clicking. That is a good thing! So, if you
+    want to redo your analysis because you collected more data, you don’t have
+    to remember which button you clicked in which order to obtain your results.
+    With a stored series of commands in an R script, you can repeat running them 
+    and R will process the new dataset exactly the same way as before. Working
+    with scripts makes the steps you used in your analysis clear, and the code
+    you write can be inspected by someone else who can give you feedback and 
+    spot mistakes.Working with scripts forces you to have a deeper understanding of what you are doing, and facilitates your learning and comprehension of the methods you use.
+    
+    -   R is great for reproducibility (meaning someone else can get the same 
+    results as you from the same analysis with the same data).
+    
+    -   R is widely used in several other fields like biotech and academia where 
+    analyses are expected to be reproducible. Knowing these skills can give you a leg up.
+    
     -   R can integrate new and existing tools
-    -   R is interdiscipinary and extensible. With 10,000+ packages that can be installed to extend its capabilities, R provides a framework that allows you to combine statistical approaches from many scientific disciplines to best suit the analytical framework you need to analyze your data. For instance, R has packages for image analysis, GIS, time series, population genetics, and a lot more.
+    
+    -   R is interdiscipinary and extensible. With 10,000+ packages that can be
+    installed to extend its capabilities, R provides a framework that allows you
+    to combine statistical approaches from many scientific disciplines to best suit the analytical framework you need to analyze your data. For instance, R has packages for image analysis, GIS, time series, 
+    population genetics, and a lot more.
+    
     -   R works on data of all shapes and sizes and types
-    -   Its free and is open source, meaning that anyone can open the source code an inspect it (unlike other programs like Excel, SASS or Prism which are not open source)
+    
+    -   Its free and is open source, meaning that anyone can open the source code 
+    an inspect it (unlike other programs like Excel, SASS or Prism which are not open source)
+    
     -   R produces high quality graphics
+    
     -   R has a large helpful community, including platforms like Stack Overflow 
 
 
@@ -79,8 +105,7 @@ RStudio is divided into 4 “panes”:
 
 The placement of these panes and their content can be customized (see menu, Tools -> Global Options -> Pane Layout). For ease of use, settings such as background color, font color, font size, and zoom level can also be adjusted in this menu (Global Options -> Appearance).
 
-One of the advantages of using RStudio is that all the information you need to write code is available in a single window. Additionally, with many shortcuts, autocompletion, and highlighting for the major file types you use while developing in R, RStudio will make typing easier and
-less error-prone.
+One of the advantages of using RStudio is that all the information you need to write code is available in a single window. Additionally, with many shortcuts, autocompletion, and highlighting for the major file types you use while developing in R, RStudio will make typing easier and less error-prone.
 
 #### Getting set up
 
