@@ -146,7 +146,7 @@ general, you may create directories (folders) for scripts, data, and
 documents.
 
 Let’s create a few new folders to hold input and output for us in our
-repository - `/raw_data/` - `/scripts/` - `/figures/` - `/results/`
+repository - `/Data_raw/` - `/Scripts/` - `/Figures/` - `/Results/` - `/Data/`
 
 #### The working directory
 
