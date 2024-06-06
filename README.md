@@ -85,24 +85,24 @@ NOTE: This precise timing of the schedule is still being adjusted - stay tuned f
 
 ### DAY2: June 6th
 
-| Time        | Topic                                                       | Data Carpentry Curriculum                                                |   |   |
-|-------------|-------------------------------------------------------------|--------------------------------------------------------------------------|---|---|
-| 8:00-9:30   | Manipulating, analyzing   and exporting data with tidyverse | https://datacarpentry.org/R-ecology-lesson/03-dplyr.html                 |   |   |
-| 9:30-9:45   | BREAK                                                       |                                                                          |   |   |
-| 9:45-10:00  | Working with Dates                                          |                                                                          |   |   |
-| 10:00-11:00 | Visualizing Data (ggplot)                                   | https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html |   |   |
-| 11:00-11:15 | BREAK                                                       |                                                                          |   |   |
-| 11:15-12:00 | Visualizing Data (Visualizing Data Continued (pipes, faceting, themes) )                                   | https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html |   |   |
+| Time        | Topic                                                     | Data Carpentry Curriculum                                                |   |   |
+|-------------|-----------------------------------------------------------|--------------------------------------------------------------------------|---|---|
+| 8:00-8:30   | Starting with Data in R                                   | https://datacarpentry.org/R-ecology-lesson/02-starting-with-data.html    |   |   |
+| 8:30-9:30   | Manipulating, analyzing and exporting data with tidyverse | https://datacarpentry.org/R-ecology-lesson/03-dplyr.html                 |   |   |
+| 9:30-9:45   | BREAK                                                     |                                                                          |   |   |
+| 9:45-11:00  | Manipulating, analyzing and exporting data with tidyverse | https://datacarpentry.org/R-ecology-lesson/03-dplyr.html                 |   |   |
+| 11:00-11:15 | BREAK                                                     |                                                                          |   |   |
+| 11:15-12:00 | Visualizing Data (ggplot)                                 | https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html |   |   |
+
 
 ### DAY 3: June 7th
+
 | Time        | Topic                                                        | Data Carpentry Curriculum                                                |   |   |
 |-------------|--------------------------------------------------------------|--------------------------------------------------------------------------|---|---|
+| 7:30-8:00   | Set Up and Challenge Review                                  |                                                                          |   |   |
 | 8:00-9:30   | Visualizing Data Cont. (customization, arranging, exporting) | https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html |   |   |
 | 9:30-9:45   | BREAK                                                        |                                                                          |   |   |
-| 9:45-10:30  | Statistical Analysis and ggplot                              |                                                                          |   |   |
-| 10:30-11:00 | Intro to Linear regression                                   |                                                                          |   |   |
+| 9:45-11:00  | Visualizing Data Cont. (customization, arranging, exporting) | https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html |   |   |
 | 11:00-11:15 | BREAK                                                        |                                                                          |   |   |
-| 11:15-11:45 | Making reports and sharing your code   with github           |                                                                          |   |   |
-| 11:45       | Wrap up and next steps                                       |                                                                          |   |   |
-|             |                                                              |                                                                          |   |   |
-|             |                                                              |                                                                          |   |   |
+| 11:00-11:45 | Statistical Analysis and ggplot                              |                                                                          |   |   |
+| 11:45-12:00 | Wrap up and next steps                                       |                                                                          |   |   |
