@@ -1,0 +1,2954 @@
+---
+title: "Intro_to_R_Montesano_2024"
+author: "Erin Witkop"
+date: "2024-05-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+The Montesano Fish Program is conducting it's first Intro to R for Ecologists workshop this June. The workshop is geared towards people who have never programmed or have limited programming experience in R.
+
+The workshop curriculum will closely mirror this publicly available Data Carpentry workshop "Data Analysis and Visualization in R for Ecologists". However, the course has been shortened and data sets and challenge examples have been tailored to be more applicable to fish program work.
+
+
+## DAY 1
+
+### 8:00 am Introduction
+
+Welcome to the first Fish Program Intro to R course! I started coding in R as a undergrad and now have about 11 years of experience. Five years ago I became a certified
+Data Carpentry instructor, which means I have taken several of their courses, taught several courses, and took a course in the pedagogical style of the Carpentries, and edited the online curriculum. I really enjoy teaching and working with data and I’m excited to be teaching this course along with several amazing helpers, Matthew Siskey, Marlene Wagner, and MAtthew George.
+
+This course begins with the assumption that you have no prior experience coding at all in any language and the curriculum is designed to build on itself throughout the course. Our main goal by the end of the course is for students to be able to load their own data into R, calculate some standard statistics, do exploratory plotting and analysis, and be able to manipulate code that other people have written.
+
+We are basing the curriculum and pedagogical style of this course off of the Data Carpentry Data Analysis and Visualization in R for Ecologists course [course](https://datacarpentry.org/R-ecology-lesson/).
+
+For information regarding the schedule, helpful Data Carpentry resources, links to the code we will generate, and links to the collaborative etherpad document, please see our github repository [link](https://github.com/erinwitkop-DFW/Intro_to_R_Monte_2024)
+
+We are going to use a collaborative etherpad document at several points
+during the course. The link for the etherpad is
+[here](https://pad.riseup.net/p/Intro_R_Monte_2024).
+
+Next I want to more formally introduce our helpers for the workshop.
+Every day we will have one helper who is knowledgeable in R.
+Their role is to help troubleshoot any individual problems or error
+codes you may have that you are not able to figure out. Whenever you
+need help, raise up your red sticky note and a helper will come over
+and see if they can assist you. At some points in the course I’ll check
+in regarding the pace and ask you to put up a green sticky
+note if you feel good, or red if I need to slow down.
+
+I do want to point out that there are a lot of things to know about R,
+but the goal of this course is to help you build confidence and know
+that you find answers to your own questions.
+
+### 8:10 am - 8:45am: Before we Start
+
+-   What is R? What is RStudio?
+    -   The term “R” is used to refer to both the programming language and the
+    software that interprets the scripts written using it. RStudio is a popular
+    way to write R scripts and interact with the R software. To function correctly, RStudio needs R and therefore both need to be installed on your computer.
+    
+-   Why learn R?
+    -   R does not involve a lot of pointing and clicking. In R, the results 
+    of your analysis rely on a series of written commands, and not on remembering
+    a succession of pointing and clicking. That is a good thing! So, if you
+    want to redo your analysis because you collected more data, you don’t have
+    to remember which button you clicked in which order to obtain your results.
+    With a stored series of commands in an R script, you can repeat running them 
+    and R will process the new dataset exactly the same way as before. Working
+    with scripts makes the steps you used in your analysis clear, and the code
+    you write can be inspected by someone else who can give you feedback and 
+    spot mistakes.Working with scripts forces you to have a deeper understanding of what you are doing, and facilitates your learning and comprehension of the methods you use.
+    
+    -   R is great for reproducibility (meaning someone else can get the same 
+    results as you from the same analysis with the same data).
+    
+    -   R is widely used in several other fields like biotech and academia where 
+    analyses are expected to be reproducible. Knowing these skills can give you a leg up.
+    
+    -   R can integrate new and existing tools
+    
+    -   R is interdiscipinary and extensible. With 10,000+ packages that can be
+    installed to extend its capabilities, R provides a framework that allows you
+    to combine statistical approaches from many scientific disciplines to best suit the analytical framework you need to analyze your data. For instance, R has packages for image analysis, GIS, time series, 
+    population genetics, and a lot more.
+    
+    -   R works on data of all shapes and sizes and types
+    
+    -   Its free and is open source, meaning that anyone can open the source code 
+    an inspect it (unlike other programs like Excel, SASS or Prism which are not open source)
+    
+    -   R produces high quality graphics
+    
+    -   R has a large helpful community, including platforms like Stack Overflow 
+
+
+#### Knowing your way around R and R studio
+
+Let’s start by learning about RStudio, which is an Integrated Development Environment (IDE) for working with R.
+
+The RStudio IDE open-source product is free under the Affero General Public License (AGPL) v3. The RStudio IDE is also available with a commercial license and priority email support from RStudio, PBC.
+
+We will use RStudio IDE to write code, navigate the files on our computer, inspect the variables we are going to create, and visualize the plots we will generate. RStudio can also be used for other things (e.g., version control, developing packages, writing Shiny apps) that we will not cover during the workshop.
+
+RStudio is divided into 4 “panes”:
+
+-   The Source for your scripts and documents (top-left, in the default layout)
+-   Your Environment/History (top-right) which shows all the objects in your working space (Environment) and your command history (History)
+-   Your Files/Plots/Packages/Help/Viewer (bottom-right)
+-   The R Console (bottom-left)
+
+The placement of these panes and their content can be customized (see menu, Tools -> Global Options -> Pane Layout). For ease of use, settings such as background color, font color, font size, and zoom level can also be adjusted in this menu (Global Options -> Appearance).
+
+One of the advantages of using RStudio is that all the information you need to write code is available in a single window. Additionally, with many shortcuts, autocompletion, and highlighting for the major file types you use while developing in R, RStudio will make typing easier and less error-prone.
+
+#### Getting set up
+
+It is good practice to keep a set of related data, analyses, and text
+self-contained in a single folder, called the working directory. All of
+the scripts within this folder can then use relative paths to files that
+indicate where inside the project a file is located (as opposed to
+absolute paths, which point to where a file is on a specific computer).
+Working this way allows you to move your project around on your computer
+and share it with others without worrying about whether or not the
+underlying scripts will still work.
+
+RStudio provides a helpful set of tools to do this through its
+“Projects” interface, which not only creates a working directory for
+you, but also remembers its location (allowing you to quickly navigate
+to it) and optionally preserves custom settings and (re-)open files to
+assist resume work after a break. Go through the steps for creating an
+“R Project” for this tutorial below.
+
+1.  Start RStudio.
+2.  Under the `File` menu, click on `New Project`. Choose
+    `New Directory`, then `New Project`.
+3.  Enter a name for this new folder (or “directory”), and choose a
+    convenient location for it. This will be your working directory for
+    the rest of the course (e.g., \~/data-carpentry).
+4.  Click on Create Project.
+
+A workspace is your current working environment in R which includes any
+user-defined object. By default, all of these objects will be saved, and
+automatically loaded, when you reopen your project.
+
+#### Organizing your working directory
+
+Using a consistent folder structure across your projects will help keep
+things organized, and will help you to find/file things in the future.
+This can be especially helpful when you have multiple projects. In
+general, you may create directories (folders) for scripts, data, and
+documents.
+
+Let’s create a few new folders to hold input and output for us in our
+repository - `/Data_raw/` - `/Scripts/` - `/Figures/` - `/Results/` - `/Data/`
+
+#### The working directory
+
+The working directory is an important concept to understand. It is the
+place from where R will be looking for and saving the files. When you
+write code for your project, it should refer to files in relation to the
+root of your working directory and only need files within this
+structure.
+
+RStudio assists you in this regard and sets the working directory
+automatically to the directory where you have placed your project in. If
+you need to check it, you can use `getwd()`. If for some reason your
+working directory is not what it should be you can use
+`setwd("/path/to/working/directory")` to reset your working directory.
+
+Under the Files tab on the right of the screen, click on New Folder and
+create a folder named data_raw within your newly created working directory
+(e.g., ~/data-carpentry/). (Alternatively, type dir.create("data_raw") at
+your R console.) Repeat these operations to create a data and a fig folder.
+
+#### Interacting with R
+
+What we are writing is *code* or the instructions to tell R how to run.
+We call the instructions *commands* and then we execute the commands by
+running the code.
+
+You can either run code directly through the console and press `Enter`,
+or by writing your commands in a script and running them using the `Run`
+button or a keyboard shortcut. For example, I run my commands in R on a
+mac using COMMAND+ENTER.
+
+There are two main ways of interacting with R: by using the console or 
+by using script files (plain text files that contain your code). The 
+console pane (in RStudio, the bottom left panel) is the place where 
+commands written in the R language can be typed and executed immediately
+by the computer. It is also where the results will be shown for commands
+that have been executed. You can type commands directly into the console
+and press Enter to execute those commands, but they will be forgotten when you close the session.
+
+For reproducibility its best to write your code down in R and using the
+number (#) sign to include comments. Any line or part of a line starting
+with a number sign will be ignored by R. It’s really important to
+comment your code, both for yourself and for sharing what you have done
+with others.
+
+If R is ready to accept commands, the R console shows a > prompt. 
+If it receives a command (by typing, copy-pasting or sent from
+the script editor using Ctrl + Enter), R will try to execute it, 
+and when ready, will show the results and come back with a 
+new > prompt to wait for new commands.
+
+If R is still waiting for you to enter more data because it isn’t 
+complete yet, the console will show a + prompt. It means that you haven’t
+finished entering a complete command. This is because you have not 
+‘closed’ a parenthesis or quotation, i.e. you don’t have the same 
+number of left-parentheses as right-parentheses, or the same number
+of opening and closing quotation marks. When this happens, and you
+thought you finished typing your command, click inside the console
+window and press Esc; this will cancel the incomplete command and 
+return you to the > prompt.
+
+#### Seeking help
+
+You can search functions by typing `?mean()` in the console or also
+through the help tab in R studio. If you are looking for a function to
+do a particular task, but don’t know the function name, you can use 
+the double question mark ??, for example ??kruskall. Both commands 
+will open matching help files in RStudio’s help panel in the lower 
+right corner. You can also use the help panel to search help directly,
+as seen in the screenshot.Looking up commands is really useful
+for understanding the arguments that each one takes and how to use it
+properly!
+
+#### Automatic Code Completion
+
+When you start typing code in R you can use tab completion to finish a
+command or object name that you were typing by hitting the tab button.
+
+#### Package Vignettes and cheat sheets
+
+In addition to the documentation for individual functions, many 
+packages have vignettes – instructions for how to use the package 
+to do certain tasks. Vignettes are great for learning by example. 
+Vignettes are accessible via the package help and by using the function`browseVignettes(`.
+
+There is also a Help menu at the top of the RStudio window, that has
+cheat sheets for popular packages, RStudio keyboard shortcuts, and more.
+
+#### Finding more packages and functions
+
+RStudio’s help only searches the packages that you have installed on your machine, 
+but there are many more available on CRAN and GitHub. To search across all
+available R packages, you can use the website rdocumentation.org. Often, 
+a generic Google or internet search “R <task>” will send you to the appropriate
+package documentation or a forum where someone else has already asked your question. 
+Many packages also have websites with additional help, tutorials,
+news and more (for example tidyverse.org).
+
+
+#### Dealing with Error Messages
+
+Don’t get discouraged if your code doesn’t run immediately! Error
+messages are common when programming, and fixing errors is part of any
+programmer’s daily work. Often, the problem is a small typo in a
+variable name or a missing parenthesis. Watch for the red x’s next to
+your code in RStudio. These may provide helpful hints about the source
+of the problem.
+
+RStudio shows a red x next to a line of code that R doesn’t understand.
+
+If you can’t fix an error yourself, start by googling it. Some error
+messages are too generic to diagnose a problem (e.g. “subscript out of
+bounds”). In that case it might help to include the name of the function
+or package you’re using in your query.
+
+#### Asking for Help
+
+If your Google search is unsuccessful, you may want to ask other R users for help. There are different places where you can ask for help. During this workshop, don’t hesitate to talk to your neighbor, compare your answers, and ask for help. You might also be interested in organizing regular meetings following the workshop to keep learning from each other. If you have a friend or colleague with more experience than you, they might also be able and willing to help you.
+
+Besides that, there are a few places on the internet that provide help:
+
+  - Stack Overflow: Many questions have already been answered, but the challenge is to use the right words in your search to find them. If your question hasn’t been answered before and is well crafted, chances are you will get an answer in less than 5 min. Remember to follow their guidelines on how to ask a good question.
+  - The R-help mailing list: it is used by a lot of people (including most of the R core team). If your question is valid (read its Posting Guide), you are likely to get an answer very fast, but the tone can be pretty dry and it is not always very welcoming to new users.
+  - If your question is about a specific package rather than a base R function, see if there is a mailing list for the package. Usually it’s included in the DESCRIPTION file of the package that can be accessed using packageDescription("<package-name>").
+  - You can also try to contact the package author directly, by emailing them or opening an issue on the code repository (e.g., on GitHub).
+  - There are also some topic-specific mailing lists (GIS, phylogenetics, etc…). The complete list is on the R mailing lists website.
+
+The key to receiving help from someone is for them to rapidly grasp your problem. Thus, you should be as precise as possible when describing your problem and help others to pinpoint where the issue might be. Try to…
+
+  - Use the correct words to describe your problem. Otherwise you might get an answer pointing to the misuse of your words rather than answering your question.
+
+  - Generalize what you are trying to do, so people outside your field can understand the question.
+
+  - Reduce what does not work to a simple reproducible example. For instance, instead of using your real data set, create a small generic one. For more information on how to write a reproducible example see this article from the reprex package. Learning how to use the reprex package is also very helpful for this.
+
+  - Include the output of sessionInfo() in your question. It provides information about your platform, the versions of R and the packages that you are using. As an example, here you can see the versions of R and all the packages that we are using to run the code in this lesson:
+
+## 8:45 - 9:30 am: Introduction to R
+
+***
+::::::::::::::::::::::::::::::::::::::: questions
+
+- How do you create objects in R? 
+- How do you save R code for later use? 
+- How do you manipulate data in R?
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::: objectives
+
+- Define the following terms as they relate to R: object, assign, call,
+  function, arguments, options.
+- Create objects and assign values to them  in R.
+- Learn how to *name* objects.
+- Save a script file for later use.
+- Use comments to inform script.
+- Solve simple arithmetic operations in R.
+- Call functions and use arguments to change their default options.
+- Inspect the content of vectors and manipulate their content.
+- Subset and extract values from vectors.
+- Analyze vectors with missing data.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+***
+
+## Creating objects in R
+
+You can get output from R simply by typing math in the console:
+
+```{r, purl=FALSE}
+3 + 5
+12 / 7
+```
+
+However, to do useful and interesting things, we need to assign *values* to
+*objects*. To create an object, we need to give it a name followed by the
+assignment operator `<-`, and the value we want to give it:
+
+```{r, purl=FALSE}
+weight_kg <- 55
+```
+
+`<-` is the assignment operator we will use in this course. It assigns values on the right to objects on
+the left. So, after executing `x <- 3`, the value of `x` is `3`.   For historical reasons, you can also use `=`
+for assignments, but not in every context. Because of the
+[slight](https://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html)
+[differences](https://renkun.me/2014/01/28/difference-between-assignment-operators-in-r/)
+in syntax, it is good practice to always use `<-` for assignments.
+
+In RStudio, typing <kbd>Alt</kbd> + <kbd>\-</kbd> (push <kbd>Alt</kbd> at the
+same time as the <kbd>\-</kbd> key) will write `<-` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>\-</kbd> (push <kbd>Option</kbd> at the
+same time as the <kbd>\-</kbd> key) does the same in a Mac.
+
+Objects can be given almost any name such as `x`, `current_temperature`, or `subject_id`. Here are some further guidelines on naming objects:
+
+- You want your object names to be explicit and not too long.
+- They cannot start with a number (`2x` is not valid, but `x2` is).
+- R is case sensitive, so for example, `Weight_kg` is different from `Weight_kg`.
+- There are some names that cannot be used because they are the names of fundamental functions in R (e.g., `if`, `else`, `for`, see
+  [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
+  for a complete list). In general, even if it's allowed, it's best to not use
+  other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `weights`). If in
+  doubt, check the help to see if the name is already in use.
+- It's best to avoid dots (`.`) within names. Many function names in R itself have them and dots also have a special meaning (methods) in R and other programming languages. To avoid confusion, don't include dots in names.
+- It is recommended to use nouns for object names and verbs for function names.
+- Be consistent in the styling of your code, such as where you put spaces, how you name objects, etc. Styles can include "lower\_snake", "UPPER\_SNAKE", "lowerCamelCase", "UpperCamelCase", etc. Using a consistent coding style makes your code clearer to read for your future self and your collaborators. In R, three popular style guides come from [Google](https://google.github.io/styleguide/Rguide.xml), [Jean
+  Fan](https://jef.works/R-style-guide/) and the
+  [tidyverse](https://style.tidyverse.org/). The tidyverse style is very comprehensive and may seem overwhelming at first. You can install the [**`lintr`**](https://github.com/jimhester/lintr) package to automatically check for issues in the styling of your code.
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+### Objects vs. variables
+
+What are known as `objects` in `R` are known as `variables` in many other
+programming languages. Depending on the context, `object` and `variable` can
+have drastically different meanings. However, in this lesson, the two words
+are used synonymously. For more information see:
+[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Objects](https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Objects)
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+When assigning a value to an object, R does not print anything. You can force R to print the value by using parentheses or by typing the object name:
+
+```{r, purl=FALSE}
+weight_kg <- 55    # doesn't print anything
+(weight_kg <- 55)  # but putting parenthesis around the call prints the value of `weight_kg`
+weight_kg          # and so does typing the name of the object
+```
+
+Now that R has `weight_kg` in memory, we can do arithmetic with it. For
+instance, we may want to convert this weight into pounds (weight in pounds is 2.2 times the weight in kg):
+
+```{r, purl=FALSE}
+2.2 * weight_kg
+```
+
+We can also change an object's value by assigning it a new one: Note that is overwrites! 
+
+```{r, purl=FALSE}
+weight_kg <- 57.5
+2.2 * weight_kg
+```
+
+This means that assigning a value to one object does not change the values of
+other objects. For example, let's store the animal's weight in pounds in a new
+object, `weight_lb`:
+
+```{r, purl=FALSE}
+weight_lb <- 2.2 * weight_kg
+```
+
+and then change `weight_kg` to 100.
+
+```{r, purl=FALSE}
+weight_kg <- 100
+```
+
+What do you think is the current content of the object `weight_lb`? 126.5 or 220?
+
+### Saving your code
+
+Up to now, your code has been in the console. This is useful for quick queries
+but not so helpful if you want to revisit your work for any reason.
+A script can be opened by pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
+<kbd>N</kbd>.
+It is wise to save your script file immediately. To do this press
+<kbd>Ctrl</kbd> + <kbd>S</kbd>. This will open a dialogue box where you
+can decide where to save your script file, and what to name it.
+The `.R` file extension is added automatically and ensures your file
+will open with RStudio.
+
+Don't forget to save your work periodically by pressing <kbd>Ctrl</kbd> +
+<kbd>S</kbd>.
+
+### Comments
+
+The comment character in R is `#`.  Anything to the right of a `#` in a script
+will be ignored by R. It is useful to leave notes and explanations in your
+scripts.
+For convenience, RStudio provides a keyboard shortcut to comment or uncomment a paragraph: after selecting the
+lines you  want to comment, press at the same time on your keyboard
+<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>. If you only want to comment
+out one line, you can put the cursor at any location of that line (i.e. no need
+to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
+<kbd>C</kbd>.
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge
+
+What are the values after each statement in the following?
+
+```{r, purl=FALSE}
+mass <- 47.5            # mass?
+age  <- 122             # age?
+mass <- mass * 2.0      # mass?
+age  <- age - 20        # age?
+mass_index <- mass/age  # mass_index?
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+```{r, echo=FALSE, purl=TRUE}
+### Challenge
+##
+## What are the values after each statement in the following?
+##
+## mass <- 47.5            # mass?
+## age  <- 122             # age?
+## mass <- mass * 2.0      # mass?
+## age  <- age - 20        # age?
+## mass_index <- mass/age  # mass_index?
+```
+
+### Functions and their arguments
+
+Functions are "canned scripts" that automate more complicated sets of commands
+including operations assignments, etc. Many functions are predefined, or can be
+made available by importing R *packages* (more on that later). A function
+usually takes one or more inputs called *arguments*. Functions often (but not
+always) return a *value*. A typical example would be the function `sqrt()`. The
+input (the argument) must be a number, and the return value (in fact, the
+output) is the square root of that number. Executing a function ('running it')
+is called *calling* the function. An example of a function call is:
+
+```{r, eval=FALSE, purl=FALSE}
+weight_kg <- sqrt(10)
+```
+
+Here, the value of 10 is given to the `sqrt()` function, the `sqrt()` function
+calculates the square root, and returns the value which is then assigned to
+the object `weight_kg`. This function takes one argument, other functions might take several.
+
+The return 'value' of a function need not be numerical (like that of `sqrt()`),
+and it also does not need to be a single item: it can be a set of things, or
+even a dataset. We'll see that when we read data files into R.
+
+Arguments can be anything, not only numbers or filenames, but also other
+objects. Exactly what each argument means differs per function, and must be
+looked up in the documentation (see below). Some functions take arguments which
+may either be specified by the user, or, if left out, take on a *default* value:
+these are called *options*. Options are typically used to alter the way the
+function operates, such as whether it ignores 'bad values', or what symbol to
+use in a plot.  However, if you want something specific, you can specify a value
+of your choice which will be used instead of the default.
+
+Let's try a function that can take multiple arguments: `round()`.
+
+```{r, purl=FALSE}
+round(3.14159)
+```
+
+Here, we've called `round()` with just one argument, `3.14159`, and it has
+returned the value `3`.  That's because the default is to round to the nearest
+whole number. If we want more digits we can see how to do that by getting
+information about the `round` function.  We can use `args(round)` to find what
+arguments it takes, or look at the
+help for this function using `?round`.
+
+```{r, purl=FALSE}
+args(round)
+```
+
+```{r, eval=FALSE, purl=FALSE}
+?round
+```
+
+We see that if we want a different number of digits, we can
+type `digits = 2` or however many we want.
+
+```{r, purl=FALSE}
+round(3.14159, digits = 2)
+```
+
+If you provide the arguments in the exact same order as they are defined you
+don't have to name them:
+
+```{r, purl=FALSE}
+round(3.14159, 2)
+```
+
+And if you do name the arguments, you can switch their order:
+
+```{r, purl=FALSE}
+round(digits = 2, x = 3.14159)
+```
+
+It's good practice to put the non-optional arguments (like the number you're
+rounding) first in your function call, and to then specify the names of all optional
+arguments.  If you don't, someone reading your code might have to look up the
+definition of a function with unfamiliar arguments to understand what you're
+doing.
+
+## Vectors and data types
+
+A vector is the most common and basic data type in R, and is pretty much
+the workhorse of R. A vector is composed by a series of values, which can be
+either numbers or characters. We can assign a series of values to a vector using
+the `c()` function. For example we can create a vector of animal weights and assign
+it to a new object `weight_g`:
+
+```{r, purl=FALSE}
+weight_g <- c(50, 60, 65, 82)
+weight_g
+```
+
+A vector can also contain characters:
+
+```{r, purl=FALSE}
+animals <- c("mouse", "rat", "dog")
+animals
+```
+
+The quotes around "mouse", "rat", etc. are essential here. Without the quotes R
+will assume objects have been created called `mouse`, `rat` and `dog`. As these objects
+don't exist in R's memory, there will be an error message.
+
+There are many functions that allow you to inspect the content of a
+vector. `length()` tells you how many elements are in a particular vector:
+
+```{r, purl=FALSE}
+length(weight_g)
+length(animals)
+```
+
+An important feature of a vector, is that all of the elements are the same type of data.
+The function `class()` indicates what kind of object you are working with:
+
+```{r, purl=FALSE}
+class(weight_g)
+class(animals)
+```
+
+The function `str()` provides an overview of the structure of an object and its
+elements. It is a useful function when working with large and complex
+objects:
+
+```{r, purl=FALSE}
+str(weight_g)
+str(animals)
+```
+
+You can use the `c()` function to add other elements to your vector:
+
+```{r, purl=FALSE}
+weight_g <- c(weight_g, 90) # add to the end of the vector
+weight_g <- c(30, weight_g) # add to the beginning of the vector
+weight_g
+```
+
+In the first line, we take the original vector `weight_g`,
+add the value `90` to the end of it, and save the result back into
+`weight_g`. Then we add the value `30` to the beginning, again saving the result
+back into `weight_g`.
+
+We can do this over and over again to grow a vector, or assemble a dataset.
+As we program, this may be useful to add results that we are collecting or
+calculating.
+
+An **atomic vector** is the simplest R **data type** and is a linear vector of a single type. Above, we saw
+2 of the 6 main **atomic vector** types  that R
+uses: `"character"` and `"numeric"` (or `"double"`). These are the basic building blocks that
+all R objects are built from. The other 4 **atomic vector** types are:
+
+- `"logical"` for `TRUE` and `FALSE` (the boolean data type)
+- `"integer"` for integer numbers (e.g., `2L`, the `L` indicates to R that it's an integer)
+- `"complex"` to represent complex numbers with real and imaginary parts (e.g.,
+  `1 + 4i`) and that's all we're going to say about them
+- `"raw"` for bitstreams that we won't discuss further
+
+You can check the type of your vector using the `typeof()` function and inputting your vector as the argument.
+
+Vectors are one of the many **data structures** that R uses. Other important
+ones are lists (`list`), matrices (`matrix`), data frames (`data.frame`),
+factors (`factor`) and arrays (`array`).
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge
+
+- We've seen that atomic vectors can be of type character,
+  numeric (or double), integer, and logical. But what happens if we try to mix these types in
+  a single vector?
+
+::::::: solution
+
+R implicitly converts them to all be the same type
+
+::::::::::::::::
+
+- What will happen in each of these examples? (hint: use `class()`
+  to check the data type of your objects):
+  
+```{r }
+  num_char <- c(1, 2, 3, "a")
+  num_logical <- c(1, 2, 3, TRUE)
+  char_logical <- c("a", "b", "c", TRUE)
+  tricky <- c(1, 2, 3, "4")
+```
+
+- Why do you think it happens?
+
+::::::: solution
+
+Vectors can be of only one data type. R tries to
+convert (coerce) the content of this vector to find a "common
+denominator" that doesn't lose any information.
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## BREAK 1 9:30-9:45 
+
+## 9:45-10:00 Introduction to R- continued
+
+## Subsetting vectors
+
+If we want to extract one or several values from a vector, we must provide one
+or several indices in square brackets. For instance:
+
+```{r, purl=FALSE}
+animals <- c("mouse", "rat", "dog", "cat")
+animals[2]
+animals[c(3, 2)]
+```
+
+We can also repeat the indices to create an object with more elements than the
+original one:
+
+```{r, purl=FALSE}
+more_animals <- animals[c(1, 2, 3, 2, 1, 4)]
+more_animals
+```
+
+R indices start at 1. Programming languages like Fortran, MATLAB, Julia, and R start
+counting at 1, because that's what human beings typically do. Languages in the C
+family (including C++, Java, Perl, and Python) count from 0 because that's
+simpler for computers to do.
+
+### Conditional subsetting
+
+Another common way of subsetting is by using a logical vector. `TRUE` will
+select the element with the same index, while `FALSE` will not:
+
+```{r, purl=FALSE}
+weight_g <- c(21, 34, 39, 54, 55)
+weight_g[c(T, F, F, T, T)]
+```
+
+Typically, these logical vectors are not typed by hand, but are the output of
+other functions or logical tests. For instance, if you wanted to select only the
+values above 50:
+
+```{r,  purl=FALSE}
+weight_g > 50    # will return logicals with TRUE for the indices that meet the condition
+## so we can use this to select only the values above 50
+weight_g[weight_g > 50]
+```
+
+You can combine multiple tests using `&` (both conditions are true, AND) or `|`
+(at least one of the conditions is true, OR):
+
+```{r, purl=FALSE}
+weight_g[weight_g > 30 & weight_g < 50]
+weight_g[weight_g <= 30 | weight_g == 55]
+weight_g[weight_g >= 30 & weight_g == 21]
+```
+
+Here, `>` for "greater than", `<` stands for "less than", `<=` for "less than
+or equal to", and `==` for "equal to". The double equal sign `==` is a test for
+numerical equality between the left and right hand sides, and should not be
+confused with the single `=` sign, which performs variable assignment (similar
+to `<-`).
+
+A common task is to search for certain strings in a vector.  One could use the
+"or" operator `|` to test for equality to multiple values, but this can quickly
+become tedious. The function `%in%` allows you to test if any of the elements of
+a search vector are found:
+
+```{r, purl=FALSE}
+animals <- c("mouse", "rat", "dog", "cat", "cat")
+
+# return both rat and cat
+animals[animals == "cat" | animals == "rat"]
+
+# return a logical vector that is TRUE for the elements within animals
+# that are found in the character vector and FALSE for those that are not
+animals %in% c("rat", "cat", "dog", "duck", "goat", "bird", "fish")
+
+# use the logical vector created by %in% to return elements from animals
+# that are found in the character vector
+animals[animals %in% c("rat", "cat", "dog", "duck", "goat", "bird", "fish")]
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge (optional){.challenge}
+
+- Can you figure out why `"four" > "five"` returns `TRUE`?
+
+::::::: solution
+
+When using ">" or "\<" on strings, R compares their alphabetical order.
+Here "four" comes after "five", and therefore is "greater than" it.
+
+::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+## Missing data
+
+As R was designed to analyze datasets, it includes the concept of missing data
+(which is uncommon in other programming languages). Missing data are represented
+in vectors as `NA`.
+
+When doing operations on numbers, most functions will return `NA` if the data
+you are working with include missing values. This feature
+makes it harder to overlook the cases where you are dealing with missing data.
+You can add the argument `na.rm = TRUE` to calculate the result as if the missing
+values were removed (`rm` stands for ReMoved) first.
+
+```{r, purl=FALSE}
+heights <- c(2, 4, 4, NA, 6)
+mean(heights)
+max(heights)
+mean(heights, na.rm = TRUE)
+max(heights, na.rm = TRUE)
+```
+
+If your data include missing values, you may want to become familiar with the
+functions `is.na()`, `na.omit()`, and `complete.cases()`. See below for
+examples.
+
+```{r, purl=FALSE}
+## Extract those elements which are not missing values.
+heights[!is.na(heights)]
+
+## Returns the object with incomplete cases removed.
+#The returned object is an atomic vector of type `"numeric"` (or #`"double"`).
+na.omit(heights)
+
+## Extract those elements which are complete cases.
+#The returned object is an atomic vector of type `"numeric"` (or #`"double"`).
+heights[complete.cases(heights)]
+```
+
+Recall that you can use the `typeof()` function to find the type of your atomic vector.
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge
+
+1. Using this vector of heights in inches, create a new vector, `heights_no_na`, with the NAs removed.
+  
+  ```r
+  heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
+  ```
+
+2. Use the function `median()` to calculate the median of the `heights` vector.
+
+3. Use R to figure out how many people in the set are taller than 67 inches.
+
+:::::::: solution
+
+```{r, answer=TRUE}
+heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
+
+# 1.
+heights_no_na <- heights[!is.na(heights)]
+# or
+heights_no_na <- na.omit(heights)
+# or
+heights_no_na <- heights[complete.cases(heights)]
+
+# 2.
+median(heights, na.rm = TRUE)
+
+# 3.
+heights_above_67 <- heights_no_na[heights_no_na > 67]
+length(heights_above_67)
+```
+
+:::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Now that we have learned how to write scripts, and the basics of R's data
+structures, we are ready to start working with the carcass dataset and learn about data frames.
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- `<-` is used to assign values on the right to objects on the left
+- Code should be saved within the Source pane in RStudio to help you return to your code later.  
+- '#' can be used to add comments to your code. 
+- Functions can automate more complicated sets of commands, and require arguments as inputs.
+- Vectors are composed by a series of values and can take many forms. 
+- Data structures in R include 'vector', 'list', 'matrix', 'data.frame', 'factor', and 'array'.
+- Vectors can be subset by indexing or through logical vectors.
+- Many functions exist to remove missing data from data structures. 
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+## 10:00-11:00: Starting with Data in R: Dataframes
+
+
+::::::::::::::::::::::::::::::::::::::: objectives
+-   Load external data from a .csv file into a data frame.
+-   Install and load packages.
+-   Describe what a data frame is.
+-   Summarize the contents of a data frame.
+-   Use indexing to subset specific portions of data frames.
+-   Describe what a factor is.
+-   Convert between strings and factors.
+-   Reorder and rename factors.
+-   Change how character strings are handled in a data frame.
+-   Format dates.
+:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::: questions
+-   What is a data.frame?
+-   How can I read a complete csv file into R?
+-   How can I get basic summary information about my dataset?
+-   How can extract specific information from a dataframe?
+-   What are factors, and how are they different from other datatypes?
+-   How can I rename factors?
+-   How are dates represented in R and how can I change the format?
+:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Loading the fish carcass data
+
+We are investigating fish carcass data collected across all available WRIAs from 1969-2024. The dataset is currently stored as an excel file. We can easily load excel files or csv files. The dataset is stored as a comma
+separated value (CSV) file. Each row holds information on the number of carcasses collected per stat week for each species in each location. 
+
+
+### Downloading the data
+
+We created the folder that will store the downloaded data (`Data_raw`)
+in the chapter ["Before we
+start"](https://datacarpentry.org/R-ecology-lesson/00-before-we-start.html#Organizing_your_working_directory).
+If you skipped that part, it may be a good idea to have a look now, to
+make sure your working directory is set up properly.
+
+Please download the file from our github repository and and we will use
+`read_xlsx()` function from the `readxl` package to load the content of the xlsx file into R. Another very common format used is .csv files. To load csv files we will use the `read_csv` function from the tidyverse to do so. 
+
+### Reading the data into R
+
+
+Packages in R are basically sets of additional functions that let you do
+more stuff. The functions we've been using so far, like `round()`,
+`sqrt()`, or `c()` come built into R. Packages give you access to
+additional functions beyond base R. A similar function to `read_csv()`
+from the tidyverse package is `read.csv()` from base R. We don't have
+time to cover their differences but notice that the exact spelling
+determines which function is used. Before you use a package for the
+first time you need to install it on your machine, and then you should
+import it in every subsequent R session when you need it.
+
+To install the **`tidyverse`** package, we can type
+`install.packages("tidyverse")` straight into the console. In fact, it's
+better to write this in the console than in our script for any package,
+as there's no need to re-install packages every time we run the script.
+Then, to load the package type:
+
+```{r, message=FALSE, purl=FALSE}
+## load the tidyverse packages, incl. dplyr
+library(tidyverse)
+```
+
+Now we can use the functions from the **`tidyverse`** package. Let's use `read_xlsx` from the readxl package to load the csv. If the file were a csv we could use this function,
+`read_csv()`, instead to read the data into a data frame (we will learn more
+about data frames later). Note the file cannot be open when you try to load.
+
+```{r }
+library(readxl)
+surveys <- read_excel("Data_raw/FTS_Carcass_1969_2024.xlsx")
+surveys
+
+# note there are going to be lots of error messages when loading!
+
+# if this had been a csv file we could have typed 
+  # surveys <- read_csv("Data_raw/FTS_Carcass_1969_2024.xlsx")
+```
+
+If we had used `read_csv` to load this file, When you execute `read_csv` on a data file, it looks through the first
+1000 rows of each column and guesses its data type.  You have the option to specify
+the data type for a column manually by using the `col_types` argument in
+`read_csv`.
+
+::: callout
+### Note
+
+`read_csv()` assumes that fields are delineated by commas. However, in
+several countries, the comma is used as a decimal separator and the
+semicolon (;) is used as a field delineator. If you want to read in this
+type of files in R, you can use the `read_csv2()` function. It behaves
+like `read_csv()` but uses different parameters for the decimal and the
+field separators. There is also the `read_tsv()` for tab separated data
+files and `read_delim()` for less common formats. Check out the help for
+`read_csv()` by typing `?read_csv` to learn more.
+
+In addition to the above versions of the csv format, you should develop
+the habits of looking at and recording some parameters of your csv
+files. For instance, the character encoding, control characters used for
+line ending, date format (if the date is not split into three
+variables), and the presence of unexpected
+[newlines](https://en.wikipedia.org/wiki/Newline) are important
+characteristics of your data files. Those parameters will ease up the
+import step of your data in R.
+:::
+
+We can see the contents of the first few lines of the data by typing its
+name: `surveys`. By default, this will show you as many rows and columns
+of the data as fit on your screen. If you wanted the first 50 rows, you
+could type `print(surveys, n = 50)`
+
+We can also extract the first few lines of this data using the function
+`head()`:
+
+```{r, purl=FALSE}
+head(surveys)
+```
+
+Unlike the `print()` function, `head()` returns the extracted data. You
+could use it to assign the first 100 rows of `surveys` to an object
+using `surveys_sample <- head(surveys, 100)`. This can be useful if you
+want to try out complex computations on a subset of your data before you
+apply them to the whole data set. There is a similar function that lets
+you extract the last few lines of the data set. It is called (you might
+have guessed it) `tail()`.
+
+To open the dataset in RStudio's Data Viewer, use the `view()` function:
+
+```{r, eval=FALSE, purl=FALSE}
+view(surveys)
+```
+
+::: callout
+### Note
+
+There are two functions for viewing which are case-sensitive. Using
+`view()` with a lowercase 'v' is part of tidyverse, whereas using
+`View()` with an uppercase 'V' is loaded through base R in the `utils`
+package.
+:::
+
+## What are data frames?
+
+When we loaded the data into R, it got stored as an object of class
+`tibble`, which is a special kind of data frame (the difference is not
+important for our purposes, but you can learn more about tibbles
+[here](https://tibble.tidyverse.org/)). Data frames are the *de facto*
+data structure for most tabular data, and what we use for statistics and
+plotting. Data frames can be created by hand, but most commonly they are
+generated by functions like `read_csv()`; in other words, when importing
+spreadsheets from your hard drive or the web.
+
+A data frame is the representation of data in the format of a table
+where the columns are vectors that all have the same length. Because
+columns are vectors, each column must contain a single type of data
+(e.g., characters, integers, factors). 
+
+We can see this also when inspecting the <b>str</b>ucture of a data
+frame with the function `str()`:
+
+```{r, purl=FALSE}
+str(surveys)
+```
+
+## Inspecting data frames
+
+We already saw how the functions `head()` and `str()` can be useful to
+check the content and the structure of a data frame. Here is a
+non-exhaustive list of functions to get a sense of the content/structure
+of the data. Let's try them out!
+
+-   Size:
+
+    -   `dim(surveys)` - returns a vector with the number of rows in the
+        first element, and the number of columns as the second element
+        (the **dim**ensions of the object)
+    -   `nrow(surveys)` - returns the number of rows
+    -   `ncol(surveys)` - returns the number of columns
+
+-   Content:
+
+    -   `head(surveys)` - shows the first 6 rows
+    -   `tail(surveys)` - shows the last 6 rows
+
+-   Names:
+
+    -   `names(surveys)` - returns the column names (synonym of
+        `colnames()` for `data.frame` objects)
+    -   `rownames(surveys)` - returns the row names
+
+-   Summary:
+
+    -   `str(surveys)` - structure of the object and information about
+        the class, length and content of each column
+    -   `summary(surveys)` - summary statistics for each column
+
+Note: most of these functions are "generic", they can be used on other
+types of objects besides `data.frame`.
+
+::: challenge
+### Challenge
+
+Based on the output of `str(surveys)`, can you answer the following
+questions?
+
+-   What is the class of the object `surveys`?
+-   How many rows and how many columns are in this object?
+
+::: solution
+```{r, answer=TRUE, results="markup", purl=FALSE}
+
+str(surveys)
+
+## * class: tibble/data frame
+## * how many rows: 16084,  how many columns: 56
+
+```
+:::
+:::
+
+## Indexing and subsetting data frames
+
+```{r, echo=FALSE, purl=TRUE}
+
+## Indexing and subsetting data frames
+```
+
+Our survey data frame has rows and columns (it has 2 dimensions), if we
+want to extract some specific data from it, we need to specify the
+"coordinates" we want from it. Row numbers come first, followed by
+column numbers. However, note that different ways of specifying these
+coordinates lead to results with different classes.
+
+```{r, purl=FALSE}
+# We can extract specific values by specifying row and column indices
+# in the format: 
+# data_frame[row_index, column_index]
+# For instance, to extract the first row and column from surveys:
+surveys[1, 1]
+
+# First row, sixth column:
+surveys[1, 6]   
+
+# We can also use shortcuts to select a number of rows or columns at once
+# To select all columns, leave the column index blank
+# For instance, to select all columns for the first row:
+surveys[1, ]
+
+# The same shortcut works for rows --
+# To select the first column across all rows:
+surveys[, 1]
+
+# An even shorter way to select first column across all rows:
+surveys[1] # No comma! 
+
+# To select multiple rows or columns, use vectors!
+# To select the first three rows of the 5th and 6th column
+surveys[c(1, 2, 3), c(5, 6)] 
+
+# We can use the : operator to create those vectors for us:
+surveys[1:3, 5:6] 
+
+# This is equivalent to head_surveys <- head(surveys)
+head_surveys <- surveys[1:6, ]
+
+# As we've seen, when working with tibbles 
+# subsetting with single square brackets ("[]") always returns a data frame.
+# If you want a vector, use double square brackets ("[[]]")
+
+# For instance, to get the first column as a vector:
+surveys[[1]]
+
+# To get the first value in our data frame:
+surveys[[1, 1]]
+```
+
+`:` is a special function that creates numeric vectors of integers in
+increasing or decreasing order, test `1:10` and `10:1` for instance.
+
+You can also exclude certain indices of a data frame using the "`-`"
+sign:
+
+```{r, purl=FALSE}
+surveys[, -1]                 # The whole data frame, except the first column
+surveys[-(7:nrow(surveys)), ] # Equivalent to head(surveys)
+```
+
+Data frames can be subset by calling indices (as shown previously), but
+also by calling their column names directly:
+
+```{r, eval=FALSE, purl=FALSE}
+# As before, using single brackets returns a data frame:
+surveys["species"]
+surveys[, "fin_clip"]
+
+# Double brackets returns a vector:
+surveys[["species"]]
+
+# We can also use the $ operator with column names instead of double brackets
+# This returns a vector:
+surveys$species
+```
+
+In RStudio, you can use the autocompletion feature to get the full and
+correct names of the columns.
+
+::: challenge
+### Challenge
+
+1.  Create a `data.frame` (`surveys_200`) containing only the data in
+    row 200 of the `surveys` dataset.
+
+2.  Notice how `nrow()` gave you the number of rows in a `data.frame`?
+
+-   Use that number to pull out just that last row from the `surveys`
+    dataset.
+-   Compare that with what you see as the last row using `tail()` to
+    make sure it's meeting expectations.
+-   Pull out that last row using `nrow()` instead of the row number.
+-   Create a new data frame (`surveys_last`) from that last row.
+
+3.  Use `nrow()` to extract the row that is in the middle of the data
+    frame. Store the content of this row in an object named
+    `surveys_middle`.
+
+4.  Combine `nrow()` with the `-` notation above to reproduce the
+    behavior of `head(surveys)`, keeping just the first through 6th rows
+    of the surveys dataset.
+
+::: solution
+```{r, answer=TRUE, purl=FALSE}
+## 1.
+surveys_200 <- surveys[200, ]
+## 2.
+# Saving `n_rows` to improve readability and reduce duplication
+n_rows <- nrow(surveys)
+surveys_last <- surveys[n_rows, ]
+## 3.
+surveys_middle <- surveys[n_rows / 2, ]
+## 4.
+surveys_head <- surveys[-(7:n_rows), ]
+```
+:::
+:::
+
+## Factors
+
+```{r, echo=FALSE, purl=TRUE}
+### Factors
+```
+
+When we did `str(surveys)` we saw that several of the columns consist of
+integers. The columns `species`, `carcass_type`, `sex`, `fin_clip`, etc. ...
+however, are of the class `character`. Arguably, these columns contain
+categorical data, that is, they can only take on a limited number of
+values.
+
+R has a special class for working with categorical data, called
+`factor`. Factors are very useful and actually contribute to making R
+particularly well suited to working with data. So we are going to spend
+a little time introducing them.
+
+Once created, factors can only contain a pre-defined set of values,
+known as *levels*. Factors are stored as integers associated with labels
+and they can be ordered or unordered. While factors look (and often
+behave) like character vectors, they are actually treated as integer
+vectors by R. So you need to be very careful when treating them as
+strings.
+
+When importing a data frame with `read_csv()`, the columns that contain
+text are not automatically coerced (=converted) into the `factor` data
+type, but once we have loaded the data we can do the conversion using
+the `factor()` function:
+
+```{r, purl=FALSE}
+surveys$sex <- factor(surveys$sex)
+```
+
+We can see that the conversion has worked by using the `summary()`
+function again. This produces a table with the counts for each factor
+level:
+
+```{r, purl=FALSE}
+summary(surveys$sex)
+```
+
+By default, R always sorts levels in alphabetical order. For instance,
+if you have a factor with 2 levels:
+
+```{r, purl=TRUE}
+sex <- factor(c("male", "female", "female", "male"))
+```
+
+R will assign `1` to the level `"female"` and `2` to the level `"male"`
+(because `f` comes before `m`, even though the first element in this
+vector is `"male"`). You can see this by using the function `levels()`
+and you can find the number of levels using `nlevels()`:
+
+```{r, purl=FALSE}
+levels(sex)
+nlevels(sex)
+```
+
+Sometimes, the order of the factors does not matter, other times you
+might want to specify the order because it is meaningful (e.g., "low",
+"medium", "high"), it improves your visualization, or it is required by
+a particular type of analysis. Here, one way to reorder our levels in
+the `sex` vector would be:
+
+```{r, results=TRUE, purl=FALSE}
+sex # current order
+sex <- factor(sex, levels = c("male", "female"))
+sex # after re-ordering
+```
+
+In R's memory, these factors are represented by integers (1, 2, 3), but
+are more informative than integers because factors are self describing:
+`"female"`, `"male"` is more descriptive than `1`, `2`. Which one is
+"male"? You wouldn't be able to tell just from the integer data.
+Factors, on the other hand, have this information built in. It is
+particularly helpful when there are many levels (like the species names
+in our example dataset).
+
+::: challenge
+
+### Challenge
+
+1.  Change the columns `species` and `wria` in the `surveys` data frame
+    into a factor.
+
+2.  Using the functions you learned before, can you find out...
+
+-   How many WRIAs are represented in the dataset?
+
+::: solution
+```{r, answer=TRUE, purl=FALSE}
+surveys$species <- factor(surveys$species)
+surveys$wria <- factor(surveys$wria)
+summary(surveys)
+nlevels(surveys$wria)
+
+##  How many WRIAs are represented in the dataset?
+```
+:::
+:::
+
+# END OF DAY 1
+
+# Day 2 8:00am-8:45: Starting with Data Cont. 
+
+## Review Challenges from yesterday
+
+First let's re-load our libraries from yesterday.
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+Challenge 1:
+
+1.  Create a `data.frame` (`surveys_200`) containing only the data in
+    row 200 of the `surveys` dataset.
+
+2.  Notice how `nrow()` gave you the number of rows in a `data.frame`?
+
+-   Use that number to pull out just that last row from the `surveys`
+    dataset.
+-   Compare that with what you see as the last row using `tail()` to
+    make sure it's meeting expectations.
+-   Pull out that last row using `nrow()` instead of the row number.
+-   Create a new data frame (`surveys_last`) from that last row.
+
+3.  Use `nrow()` to extract the row that is in the middle of the data
+    frame. Store the content of this row in an object named
+    `surveys_middle`.
+
+4.  Combine `nrow()` with the `-` notation above to reproduce the
+    behavior of `head(surveys)`, keeping just the first through 6th rows
+    of the surveys dataset.
+    
+Challenge 2:
+
+1.  Change the columns `species` and `wria` in the `surveys` data frame
+    into a factor.
+
+2.  Using the functions you learned before, can you find out...
+
+-   How many WRIAs are represented in the dataset?
+
+### Converting factors
+
+A factor in R is a data structure used to represent a vector as categorical data. Therefore, the factor object takes a bounded number of different values called levels. Factors are very useful when working with character columns of data frames, for creating barplots and creating statistical summaries for categorical variables.
+
+If you need to convert a factor to a character vector, you use
+`as.character(x)`.
+
+```{r, purl=FALSE}
+sex <- factor(c("male", "female", "female", "male"))
+sex
+as.character(sex)
+```
+
+In some cases, you may have to convert factors where the levels appear
+as numbers (such as concentration levels or years) to a numeric vector.
+For instance, in one part of your analysis the years might need to be
+encoded as factors (e.g., comparing average weights across years) but in
+another part of your analysis they may need to be stored as numeric
+values (e.g., doing math operations on the years). This conversion from
+factor to numeric is a little trickier. The `as.numeric()` function
+returns the index values of the factor, not its levels, so it will
+result in an entirely new (and unwanted in this case) set of numbers.
+One method to avoid this is to convert factors to characters, and then
+to numbers.
+
+Another method is to use the `levels()` function. Compare:
+
+```{r, purl=TRUE}
+year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)               # Wrong! And there is no warning...
+as.numeric(as.character(year_fct)) # Works...
+as.numeric(levels(year_fct))[year_fct]    # The recommended way.
+```
+
+Notice that in the `levels()` approach, three important steps occur:
+
+-   We obtain all the factor levels using `levels(year_fct)`
+-   We convert these levels to numeric values using
+    `as.numeric(levels(year_fct))`
+-   We then access these numeric values using the underlying integers of
+    the vector `year_fct` inside the square brackets
+
+### Renaming factors
+
+When your data is stored as a factor, you can use the `plot()` function
+to get a quick glance at the number of observations represented by each
+factor level. Let's look at the number of males and females captured
+over the course of the experiment:
+
+```{r, purl=TRUE}
+## bar plot of the number of females and males captured during the experiment:
+class(surveys$sex)
+plot(surveys$sex)
+```
+
+However, as we saw when we used `summary(surveys$sex)`, there are both fish whose sex is NA, Not applicable, and fish whose sex is unknown. To
+show them in the plot, we can turn the missing values into a factor
+level with the `addNA()` function. We will also have to give the new
+factor level a label. We are going to work with a copy of the `sex`
+column, so we're not modifying the working copy of the data frame:
+
+```{r, results=TRUE, purl=FALSE}
+sex <- surveys$sex
+levels(sex)
+sex <- addNA(sex)
+levels(sex)
+head(sex)
+levels(sex)[5] <- "Undetermined"
+levels(sex)
+head(sex)
+```
+
+Now we can plot the data again, using `plot(sex)`.
+
+```{r, echo=FALSE, purl=FALSE, results=TRUE}
+plot(sex)
+```
+
+::: challenge
+### Challenge
+
+-   Rename "Female" and "Male" to "female" and "male" respectively.
+-   Now that we have renamed the factor level to "undetermined", can you
+    recreate the barplot such that "undetermined" is first (before
+    "female")?
+
+::: solution
+```{r, answer=TRUE, purl=FALSE}
+levels(sex)[1:2] <- c("female", "male")
+sex <- factor(sex, levels = c("undetermined", "female", "male","Unknown", "Not applicable"))
+plot(sex)
+```
+:::
+:::
+
+::: challenge
+### Challenge
+
+1.  We have seen how data frames are created when using `read_excel` or `read_csv()`,
+    but they can also be created by hand with the `data.frame()`
+    function. There are a few mistakes in this hand-crafted
+    `data.frame`. Can you spot and fix them? Don't hesitate to
+    experiment!
+
+```{r, eval=FALSE, purl=FALSE}
+animal_data <- data.frame(
+          animal = c(dog, cat, sea cucumber, sea urchin),
+          feel = c("furry", "squishy", "spiny"),
+          weight = c(45, 8 1.1, 0.8)
+          )
+```
+
+```{r, eval=FALSE, purl=TRUE, echo=FALSE}
+## Challenge:
+##  There are a few mistakes in this hand-crafted `data.frame`,
+##  can you spot and fix them? Don't hesitate to experiment!
+animal_data <- data.frame(
+      animal = c(dog, cat, sea cucumber, sea urchin),
+      feel = c("furry", "squishy", "spiny"),
+      weight = c(45, 8 1.1, 0.8)
+      )
+```
+:::
+
+The automatic conversion of data type is sometimes a blessing, sometimes
+an annoyance. Be aware that it exists, learn the rules, and double check
+that data you import in R are of the correct type within your data
+frame. If not, use it to your advantage to detect mistakes that might
+have been introduced during data entry (for instance, a letter in a
+column that should only contain numbers).
+
+Learn more in this [RStudio
+tutorial](https://support.rstudio.com/hc/en-us/articles/218611977-Importing-Data-with-RStudio)
+
+:::::::::::::::::::::::::::::::::::::::  objectives
+
+- Describe the purpose of the **`dplyr`** and **`tidyr`** packages.
+- Select certain columns in a data frame with the **`dplyr`** function `select`.
+- Extract certain rows in a data frame according to logical (boolean) conditions with the **`dplyr`** function `filter` .
+- Link the output of one **`dplyr`** function to the input of another function with the 'pipe' operator `%>%`.
+- Add new columns to a data frame that are functions of existing columns with `mutate`.
+- Use the split-apply-combine concept for data analysis.
+- Use `summarize`, `group_by`, and `count` to split a data frame into groups of observations, apply summary statistics for each group, and then combine the results.
+- Describe the concept of a wide and a long table format and for which purpose those formats are useful.
+- Describe what key-value pairs are.
+- Reshape a data frame from long to wide format and back with the `pivot_wider` and `pivot_longer` commands from the **`tidyr`** package.
+- Export a data frame to a .csv file.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::: questions
+
+- What are dplyr and tidyr?
+- How can I select specific rows and/or columns from a dataframe?
+- How can I combine multiple commands into a single command?
+- How can I create new columns or remove existing columns from a dataframe?
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## 8:45-9:30: Manipulating, analyzing and exporting data with tidyverse
+
+# Data manipulation using **`dplyr`** and **`tidyr`**
+
+Bracket subsetting is handy, but it can be cumbersome and difficult to read,
+especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for
+helping with tabular data manipulation. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+
+The **`tidyverse`** package is an
+"umbrella-package" that installs **`tidyr`**, **`dplyr`**, and several other useful packages for data analysis, such as  **`ggplot2`**, **`tibble`**, etc.
+
+The **`tidyverse`** package tries to address 3 common issues that arise when
+doing data analysis in R:
+
+1. The results from a base R function sometimes depend on the type of data.
+2. R expressions are used in a non standard way, which can be confusing for new
+  learners.
+3. The existence of hidden arguments having default operations that new learners are not aware
+  of.
+
+You should already have installed and loaded the **`tidyverse`** package.
+If you haven't already done so, you can type `install.packages("tidyverse")` straight into the console. Then, type `library(tidyverse)` to load the package.
+
+## What are **`dplyr`** and **`tidyr`**?
+
+The package **`dplyr`** provides helper tools for the most common data manipulation
+tasks. It is built to work directly with data frames, with many common tasks
+optimized by being written in a compiled language (C++). An additional feature is the
+ability to work directly with data stored in an external database. The benefits of
+doing this are that the data can be managed natively in a relational database,
+queries can be conducted on that database, and only the results of the query are
+returned.
+
+This addresses a common problem with R in that all operations are conducted
+in-memory and thus the amount of data you can work with is limited by available
+memory. The database connections essentially remove that limitation in that you
+can connect to a database of many hundreds of GB, conduct queries on it directly, and pull
+back into R only what you need for analysis.
+
+The package **`tidyr`** addresses the common problem of wanting to reshape your data for
+plotting and usage by different R functions. For example, sometimes we want data sets where we have one
+row per measurement. Other times we want a data frame where each measurement type has its
+own column, and rows are instead more aggregated groups
+(e.g., a time period, an experimental unit like a plot or a batch number).
+Moving back and forth between these formats is non-trivial, and **`tidyr`** gives you tools
+for this and more sophisticated  data manipulation.
+
+To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this
+[handy data transformation with **`dplyr`** cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
+and this [one about **`tidyr`**](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf).
+
+As before, we'll read in our data using the `read_excel()` function from the package **`readxl`**.
+
+```{r, results="hide", purl=FALSE}
+library(readxl)
+surveys <- read_excel("Data_raw/FTS_Carcass_1969_2024.xlsx")
+surveys
+```
+
+```{r, results="hide", purl=FALSE}
+## inspect the data
+str(surveys)
+```
+
+```{r, eval=FALSE, purl=FALSE}
+## preview the data
+view(surveys)
+```
+
+Next, we're going to learn some of the most common **`dplyr`** functions:
+
+- `select()`: subset columns
+- `filter()`: subset rows on conditions
+- `mutate()`: create new columns by using information from other columns
+- `group_by()` and `summarize()`: create summary statistics on grouped data
+- `arrange()`: sort results
+- `count()`: count discrete values
+
+## Selecting columns and filtering rows
+
+To select columns of a data frame, use `select()`. The first argument
+to this function is the data frame (`surveys`), and the subsequent
+arguments are the columns to keep.
+
+```{r, results="hide", purl=FALSE}
+select(surveys, species, run, fish_count)
+```
+
+To select all columns *except* certain ones, put a "-" in front of
+the variable to exclude it.
+
+```{r, results="hide", purl=FALSE}
+select(surveys, -survey_event_id, -fish_encounter_id)
+```
+
+This will select all the variables in `surveys` except `survey_event_id` and
+and `fish_encounter_id`.
+
+To choose rows based on a specific criterion, use `filter()`:
+
+```{r, purl=FALSE}
+filter(surveys, run_year == 2022)
+```
+
+## Pipes
+
+What if you want to select and filter at the same time? There are three
+ways to do this: use intermediate steps, nested functions, or pipes.
+
+With intermediate steps, you create a temporary data frame and use
+that as input to the next function, like this:
+
+```{r, purl=FALSE}
+surveys2 <- filter(surveys, fish_count < 5)
+surveys_sml <- select(surveys2, species, sex, fish_count)
+```
+
+This is readable, but can clutter up your workspace with lots of objects that you have to name individually. With multiple steps, that can be hard to keep track of.
+
+You can also nest functions (i.e. one function inside of another), like this:
+
+```{r, purl=FALSE}
+surveys_sml <- select(filter(surveys, fish_count < 5), species, sex, fish_count)
+```
+
+This is handy, but can be difficult to read if too many functions are nested, as
+R evaluates the expression from the inside out (in this case, filtering, then selecting).
+
+The last option, *pipes*, are a recent addition to R. Pipes let you take
+the output of one function and send it directly to the next, which is useful
+when you need to do many things to the same dataset.  Pipes in R look like
+`%>%` and are made available via the **`magrittr`** package, installed automatically
+with **`dplyr`**. If you use RStudio, you can type the pipe with <kbd>Ctrl</kbd>
+
+- <kbd>Shift</kbd> + <kbd>M</kbd> if you have a PC or <kbd>Cmd</kbd> +
+  <kbd>Shift</kbd> + <kbd>M</kbd> if you have a Mac.
+
+```{r, purl=FALSE}
+surveys %>%
+  filter(fish_count < 5) %>%
+  select(species, sex, fish_count)
+```
+
+In the above code, we use the pipe to send the `surveys` dataset first through
+`filter()` to keep rows where `weight` is less than 5, then through `select()`
+to keep only the desired columns. Since `%>%` takes
+the object on its left and passes it as the first argument to the function on
+its right, we don't need to explicitly include the data frame as an argument
+to the `filter()` and `select()` functions any more.
+
+Some may find it helpful to read the pipe like the word "then." For instance,
+in the example above, we took the data frame `surveys`, *then* we `filter`ed
+for rows with `fish_count < 5`, *then* we `select`ed columns `species`, `sex`,
+and `fish_count`. The **`dplyr`** functions by themselves are somewhat simple,
+but by combining them into linear workflows with the pipe we can accomplish
+more complex manipulations of data frames.
+
+If we want to create a new object with this smaller version of the data, we
+can assign it a new name:
+
+```{r, purl=FALSE}
+surveys_sml <- surveys %>%
+  filter(fish_count < 5) %>%
+  select(species, sex, fish_count)
+
+surveys_sml
+```
+
+Note that the final data frame is the leftmost part of this expression.
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge {.challenge}
+
+Using pipes, subset the `surveys` data to include carcasses collected before
+2014 and retain only the columns `stream_catalog_code`, `upper_river_mile`, and `lower_river_mile`.
+
+:::::::: solution
+
+```{r, answer=TRUE, eval=FALSE, purl=FALSE}
+surveys %>%
+    filter(run_year < 2024) %>%
+    select(stream_catalog_code, upper_river_mile, lower_river_mile)
+```
+
+:::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## 9:30-9:45 BREAK
+
+## 9:45-11:00: Manipulating, analyzing and exporting data with tidyverse
+
+### Mutate
+
+Frequently you'll want to create new columns based on the values in existing
+columns, for example to do unit conversions, or to find the ratio of values in two
+columns. For this we'll use `mutate()`.
+
+To create a new column of fork_length in meters:
+
+```{r, purl=FALSE}
+surveys %>%
+  mutate(fork_length_m = fork_length_cm /100)
+class(surveys$fork_length_cm) # character
+surveys$fork_length_cm <- as.numeric(surveys$fork_length_cm)
+head(na.omit(surveys$fork_length_cm))
+
+surveys %>%
+  mutate(fork_length_m = fork_length_cm /100) %>% 
+  select(species, fork_length_m)
+
+```
+
+You can also create a second new column based on the first new column within the same call of `mutate()`:
+
+```{r, purl=FALSE}
+surveys %>%
+  mutate(fork_length_m = fork_length_cm /100,
+         fork_length_in = fork_length_m * 39.37)
+```
+
+If this runs off your screen and you just want to see the first few rows, you
+can use a pipe to view the `head()` of the data. (Pipes work with non-**`dplyr`**
+functions, too, as long as the **`dplyr`** or `magrittr` package is loaded).
+
+```{r, purl=FALSE}
+surveys %>%
+  mutate(fork_length_m = fork_length_cm /100) %>%
+  select(species, fork_length_m) %>%
+  head()
+```
+
+The first few rows of the output are full of `NA`s, so if we wanted to remove
+those we could insert a `filter()` in the chain:
+
+```{r, purl=FALSE}
+surveys %>%
+  filter(!is.na(fork_length_cm)) %>%
+  mutate(fork_length_m = fork_length_cm /100) %>%
+  select(species, fork_length_m) %>%
+  head()
+```
+
+`is.na()` is a function that determines whether something is an `NA`. The `!`
+symbol negates the result, so we're asking for every row where weight *is not* an `NA`.
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge {.challenge}
+
+Create a new data frame from the `surveys` data that meets the following
+criteria: contains only the `species` column and a new column called
+`fork_length_mm` containing the `fork_length_cm` values (currently in cm)
+converted to millmeters.
+In this `fork_length_mm` column, there are no `NA`s and all values are less
+than 200.
+
+**Hint**: think about how the commands should be ordered to produce this data frame!
+
+:::::::: solution
+
+```{r, answer=TRUE, eval=FALSE, purl=FALSE}
+surveys_fork_length_mm <- surveys %>%
+    filter(!is.na(fork_length_cm)) %>%
+    mutate(fork_length_mm = fork_length_cm * 10) %>%
+    filter(fork_length_mm < 200) %>%
+    select(species, fork_length_mm)
+```
+
+:::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+### Split-apply-combine data analysis and the `summarize()` function
+
+Many data analysis tasks can be approached using the *split-apply-combine*
+paradigm: split the data into groups, apply some analysis to each group, and
+then combine the results. Key functions of **`dplyr`** for this workflow are
+`group_by()` and `summarize()`.
+
+#### The `group_by()` and `summarize()` functions
+
+`group_by()` is often used together with `summarize()`, which collapses each
+group into a single-row summary of that group.  `group_by()` takes as arguments
+the column names that contain the **categorical** variables for which you want
+to calculate the summary statistics. First let's reload our data and packages from yesterday
+
+So to compute the mean `fork_length_cm` by sex:
+
+```{r, purl=FALSE}
+class(surveys$fork_length_cm)
+surveys$fork_length_cm <- as.numeric(surveys$fork_length_cm)
+
+surveys %>%
+  group_by(sex) %>%
+  summarize(mean_fork_length = mean(fork_length_cm, na.rm = TRUE))
+```
+
+You can also group by multiple columns:
+
+```{r, purl=FALSE}
+surveys %>%
+  group_by(sex, species) %>%
+  summarize(mean_fork_length = mean(fork_length_cm, na.rm = TRUE)) %>%
+  tail()
+```
+
+Here, we used `tail()` to look at the last six rows of our summary. Before, we had
+used `head()` to look at the first six rows. We can see that the `sex` column contains
+`NA` values because the sex was not determined for them. The resulting `mean_fork_length` column does not contain `NA` but
+`NaN` (which refers to "Not a Number") because `mean()` was called on a vector of
+`NA` values while at the same time setting `na.rm = TRUE`. To avoid this, we can
+remove the missing values for fork_length_cm before we attempt to calculate the summary
+statistics on weight. Because the missing values are removed first, we can omit
+`na.rm = TRUE` when computing the mean:
+
+```{r, purl=FALSE}
+surveys %>%
+  filter(!is.na(fork_length_cm)) %>%
+  group_by(sex, species) %>%
+  summarize(mean_fork_length = mean(fork_length_cm))
+```
+
+Here, again, the output from these calls doesn't run off the screen
+anymore. If you want to display more data, you can use the `print()` function
+at the end of your chain with the argument `n` specifying the number of rows to
+display:
+
+```{r, purl=FALSE}
+surveys %>%
+  filter(!is.na(fork_length_cm)) %>%
+  group_by(sex, species) %>%
+  summarize(mean_fork_length = mean(fork_length_cm)) %>%
+  print(n = 10)
+```
+
+Once the data are grouped, you can also summarize multiple variables at the same
+time (and not necessarily on the same variable). For instance, we could add a
+column indicating the minimum fork_length for each species for each sex:
+
+```{r, purl=FALSE}
+surveys %>%
+  filter(!is.na(fork_length_cm)) %>%
+  group_by(sex, species) %>%
+  summarize(mean_fork_length = mean(fork_length_cm),
+            min_fork_length = min(fork_length_cm))
+```
+
+It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_fork_length` to put the smaller species first:
+
+```{r, purl=FALSE}
+surveys %>%
+ filter(!is.na(fork_length_cm)) %>%
+  group_by(sex, species) %>%
+  summarize(mean_fork_length = mean(fork_length_cm),
+            min_fork_length = min(fork_length_cm)) %>%
+  arrange(min_fork_length)
+```
+
+To sort in descending order, we need to add the `desc()` function. If we want to sort the results by decreasing order of mean weight:
+
+```{r, purl=FALSE}
+surveys %>%
+ filter(!is.na(fork_length_cm)) %>%
+  group_by(sex, species) %>%
+  summarize(mean_fork_length = mean(fork_length_cm),
+            min_fork_length = min(fork_length_cm)) %>%
+  arrange(desc(min_fork_length))
+```
+
+#### Counting
+
+When working with data, we often want to know the number of observations found
+for each factor or combination of factors. For this task, **`dplyr`** provides
+`count()`. For example, if we wanted to count the number of rows of data for
+each sex, we would do:
+
+```{r, purl=FALSE}
+surveys %>%
+    count(sex)
+```
+
+The `count()` function is shorthand for something we've already seen: grouping by a variable, and summarizing it by counting the number of observations in that group. In other words, `surveys %>% count()` is equivalent to:
+
+```{r, purl=FALSE}
+surveys %>%
+    group_by(sex) %>%
+    summarize(count = n())
+```
+
+For convenience, `count()` provides the `sort` argument:
+
+```{r, purl=FALSE}
+surveys %>%
+    count(sex, sort = TRUE)
+```
+
+Previous example shows the use of `count()` to count the number of rows/observations
+for *one* factor (i.e., `sex`).
+If we wanted to count *combination of factors*, such as `sex` and `species`,
+we would specify the first and the second factor as the arguments of `count()`:
+
+```{r, purl=FALSE}
+surveys %>%
+  count(sex, species)
+```
+
+With the above code, we can proceed with `arrange()` to sort the table
+according to a number of criteria so that we have a better comparison.
+For instance, we might want to arrange the table above in (i) an alphabetical order of
+the levels of the species and (ii) in descending order of the count:
+
+```{r, purl=FALSE}
+surveys %>%
+  count(sex, species) %>%
+  arrange(species, desc(n))
+```
+
+From the table above, we may learn that, for instance, there are 565 observations of
+the *chum* species that are not specified for its sex (i.e. `NA`).
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge {.challenge}
+
+1. How many surveys were conducted each year in each wria?
+
+:::::::: solution
+
+```{r, answer=TRUE, purl=FALSE}
+surveys %>%
+    count(wria, run_year)
+```
+
+:::::::::::::::::
+
+2. Use `group_by()` and `summarize()` to find the mean, min, and max fish_count for each species (using `species`). Also add the number of observations (hint: see `?n`).
+
+:::::::: solution
+
+```{r, answer=TRUE, purl=FALSE}
+surveys %>%
+   filter(!is.na(fish_count)) %>%
+    group_by(species) %>%
+    summarize(
+        mean_fish_count = mean(fish_count),
+        min_fish_count = min(fish_count),
+        max_fish_count = max(fish_count),
+        n = n()
+    )
+```
+
+:::::::::::::::::
+
+## 11:00-11:15 BREAK
+
+## 11:15-12:00: Manipulating, analyzing and exporting data with tidyverse
+
+### Reshaping with pivot\_longer and pivot\_wider
+
+In the [spreadsheet
+lesson](https://datacarpentry.org/spreadsheet-ecology-lesson/01-format-data/),
+we discussed how to structure our data leading to the four rules defining a tidy
+dataset:
+
+1. Each variable has its own column
+2. Each observation has its own row
+3. Each value must have its own cell
+4. Each type of observational unit forms a table
+
+Here we examine the fourth rule: Each type of observational unit forms a table.
+
+In `surveys`, the rows of `surveys` contain the values of variables associated
+with each record (the unit), values such as the fork_length or sex of each animal
+associated with each record. What if instead of comparing records, we
+wanted to compare the different mean fork_length of each species between wrias? (Ignoring `plot_type` for simplicity).
+
+We'd need to create a new table where each row (the unit) is comprised of values of variables associated with each wria. In practical terms this means the values
+in `speciesd become the names of column variables and the cells would contain the values of the mean weight observed on each plot. 
+
+Having created a new table, it is therefore straightforward to explore the
+relationship between the fork_length of different species within, and between, the
+wrias. The key point here is that we are still following a tidy data structure,
+but we have **reshaped** the data according to the observations of interest:
+average species fork_length per wria instead of recordings per specific location.
+
+The opposite transformation would be to transform column names into values of
+a variable.
+
+We can do both these of transformations with two `tidyr` functions, `pivot_wider()`
+and `pivot_longer()`.
+
+These may sound like dramatically different data layouts, but there are some tools that make transitions between these layouts more straightforward than you might think! The gif below shows how these two formats relate to each other, and gives you an idea of how we can use R to shift from one format to the other.
+
+#### Pivoting from long to wide format
+
+`pivot_wider()` takes three principal arguments:
+
+1. the data
+2. the *names\_from* column variable whose values will become new column names.
+3. the *values\_from* column variable whose values will fill the new column variables.
+
+Further arguments include `values_fill` which, if set, fills in missing values with
+the value provided.
+
+Let's use `pivot_wider()` to transform surveys to find the mean fork_length of each
+species in each wria over the full data set. We use `filter()`,
+`group_by()` and `summarize()` to filter our observations and variables of
+interest, and create a new variable for the `mean_fork_length`.
+
+```{r, purl=FALSE}
+surveys_sl <- surveys %>%
+  filter(!is.na(fork_length_cm)) %>%
+  group_by(wria, species) %>%
+  summarize(mean_fork_length = mean(fork_length_cm))
+
+str(surveys_sl)
+```
+
+This yields `surveys_sl` where the observations for each plot are distributed across
+multiple rows, 196 observations of 3 variables.
+Using `pivot_wider()` with the names from `species` and with values from `mean_fork_length` this becomes
+24 observations of 11 variables, one row for each plot.
+
+```{r, purl=FALSE}
+surveys_wide <- surveys_sl %>%
+  pivot_wider(names_from = species, values_from = mean_fork_length)
+
+str(surveys_wide)
+```
+
+We could now plot comparisons of mean fork_length in different wrias,
+although we may wish to fill in the missing values first.
+
+```{r, purl=FALSE}
+surveys_sl %>%
+  # could fill in missing values with 0, though in this case we probably shouldn't because this data wasnt recorded
+  pivot_wider(names_from = species, values_from = mean_fork_length, values_fill = 0) %>%
+  head()
+```
+
+#### Pivoting from wide to long format
+
+The opposing situation could occur if we had been provided with data in the
+form of `surveys_wide`, where the species names are column names, but we
+wish to treat them as values of a species variable instead.
+
+In this situation we are reshaping the column names and turning them into a
+pair of new variables. One variable represents the column names as values, and
+the other variable contains the values previously associated with the column names.
+
+`pivot_longer()` takes four principal arguments:
+
+1. the data
+2. the *names\_to* column variable we wish to create from column names.
+3. the *values\_to* column variable we wish to create and fill with values.
+4. *cols* are the name of the columns we use to make this pivot (or to drop).
+
+To recreate `surveys_sl` from `surveys_wide` we would create a names variable called
+`species` and value variable called `mean_fork_length`.
+
+In pivoting longer, we also need to specify what columns to reshape. If the columns are directly adjacent as they are here, we don't even need to list the all out: we can just use the `:` operator!
+
+```{r, purl=FALSE}
+surveys_long <- surveys_wide %>%
+  pivot_longer(names_to = "species", values_to = "mean_fork_length", cols = -wria)
+surveys_long
+str(surveys_long)
+```
+
+Note that now the `NA` genera are included in the long format data frame. Pivoting wider
+and then longer can be a useful way to balance out a dataset so that every
+replicate has the same composition
+
+We could also have used a specification for what columns to exclude. In this example,
+we will use all columns *except* `wria` for the names variable. By using the minus sign in the `cols` argument,
+we omit `wria` from being reshaped
+
+```{r, purl=FALSE}
+surveys_wide %>%
+  pivot_longer(names_to = "species", values_to = "mean_fork_length", cols = -wria) %>%
+  head()
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge {.challenge}
+
+1. Reshape the `surveys` data frame with `run_year` as columns, `wria`
+  as rows, and the
+  number of waterbodies surveyed as the values. You will need to summarize before
+  reshaping, and use the function `n_distinct()` to get the number of unique
+waterbodies within a particular wria. It's a powerful function! See
+  `?n_distinct` for more. Also remove data for entries where the run_year is `NA`.
+
+:::::::: solution
+
+```{r, answer=TRUE, purl=FALSE}
+surveys_wide_waterbody <- surveys %>%
+  group_by(wria, run_year) %>%
+  summarize(n_waterbody = n_distinct(waterbody_display_name)) %>%
+  pivot_wider(names_from = run_year, values_from = n_waterbody)
+
+head(surveys_wide_genera)
+```
+
+:::::::::::::::::
+
+2. Now take that data frame and `pivot_longer()` it, so each row is a unique
+  `wria` by `run_year` combination.
+
+:::::::: solution
+
+```{r, answer=TRUE, purl=FALSE}
+surveys_wide_waterbody %>%
+  pivot_longer(names_to = "run_year", values_to = "n_waterbody", cols = -wria)
+```
+
+# Exporting data
+
+Now that you have learned how to use **`dplyr`** to extract information from
+or summarize your raw data, you may want to export these new data sets to share
+them with your collaborators or for archival.
+
+Similar to the `read_csv()` function used for reading CSV files into R, there is
+a `write_csv()` function that generates CSV files from data frames.
+
+Before using `write_csv()`, we are going to create a new folder, `Data`,
+in our working directory that will store this generated dataset. We don't want
+to write generated datasets in the same directory as our raw data. It's good
+practice to keep them separate. The `Data_raw` folder should only contain the raw,
+unaltered data, and should be left alone to make sure we don't delete or modify
+it. In contrast, our script will generate the contents of the `Data`
+directory, so even if the files it contains are deleted, we can always
+re-generate them.
+
+In preparation for our next lesson on plotting, we are going to prepare a
+cleaned up version of the data set that doesn't include any missing data.
+
+Let's start by removing observations of animals for which `fork_length_cm` and `run_year` are missing, or the `species` has not been determined:
+
+```{r, purl=FALSE}
+surveys_complete <- surveys %>%
+  filter(!is.na(fork_length_cm),           # remove missing weight
+         !is.na(run_year),  # remove missing hindfoot_length
+         !is.na(species))                # remove missing sex
+
+# note after doing this we now have one fish per row which is good for analysis
+```
+
+Because we are interested in plotting how species abundances have changed
+through time, we are also going to remove observations for rare species (i.e.,
+that have been observed less than 50 times). We will do this in two steps: first
+we are going to create a data set that counts how often each species has been
+observed, and filter out the rare species; then, we will extract only the
+observations for these more common species:
+
+```{r, purl=FALSE}
+## Extract the most common species_id
+species_counts <- surveys_complete %>%
+    count(species) %>%
+    filter(n >= 50)
+
+## Only keep the most common species
+surveys_complete <- surveys_complete %>%
+  filter(species %in% species_counts$species)
+```
+
+To make sure that everyone has the same data set, check that `surveys_complete`
+has `r nrow(surveys_complete)` (7365) rows and `r ncol(surveys_complete)` (56) columns by
+typing `dim(surveys_complete)`.
+
+Now that our data set is ready, we can save it as a CSV file in our `data`
+folder.
+
+```{r, purl=FALSE, eval=FALSE}
+write_csv(surveys_complete, file = "Data/surveys_complete.csv")
+```
+
+```{r, purl=FALSE, eval=TRUE, echo=FALSE}
+if (!dir.exists("Data")) dir.create("Data")
+write_csv(surveys_complete, file = "Data/surveys_complete.csv")
+```
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- Use the `dplyr` package to manipulate data frames.
+- Use `select()` to choose variables from a data frame.
+- Use `filter()` to choose data based on values.
+- Use `mutate()` to create new variables.
+- Use `group_by()` and `summarize()` to work with subsets of data.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+# END OF DAY 2
+
+# DAY 3
+
+## 8:00-9:30: Data visualization with ggplot2
+
+::::::::::::::::::::::::::::::::::::::: questions
+
+- How do you make plots using R?
+- How do you customize and modify plots?
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::: objectives
+
+- Produce scatter plots, boxplots, and time series plots using ggplot.
+- Set universal plot settings.
+- Describe what faceting is and apply faceting in ggplot.
+- Modify the aesthetics of an existing ggplot plot (including axis labels and color).
+- Build complex and customized plots from data in a data frame.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+***
+
+We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
+
+```{r load-package, message=FALSE, purl=FALSE}
+library(tidyverse)
+```
+
+If not still in the workspace, load the data we saved in the previous lesson.
+
+```{r load-data, eval=FALSE, purl=FALSE}
+surveys_complete <- read_csv("Data/surveys_complete.csv")
+```
+
+## Plotting with **`ggplot2`**
+
+**`ggplot2`** is a plotting package that provides helpful commands to create complex plots
+from data in a data frame. It provides a more programmatic interface for
+specifying what variables to plot, how they are displayed, and general visual
+properties. Therefore, we only need minimal changes if the underlying data
+change or if we decide to change from a bar plot to a scatterplot. This helps in
+creating publication quality plots with minimal amounts of adjustments and
+tweaking.
+
+**`ggplot2`** refers to the name of the package itself. When using the package we use the
+function **`ggplot()`** to generate the plots, and so references to using the function will
+be referred to as **`ggplot()`** and the package as a whole as **`ggplot2`**
+
+**`ggplot2`** plots work best with data in the 'long' format, i.e., a column for every variable,
+and a row for every observation. Well-structured data will save you lots of time
+when making figures with **`ggplot2`**
+
+ggplot graphics are built layer by layer by adding new elements. Adding layers in
+this fashion allows for extensive flexibility and customization of plots.
+
+To build a ggplot, we will use the following basic template that can be used for different types of plots:
+
+```
+ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
+```
+
+- use the `ggplot()` function and bind the plot to a specific data frame using
+  the `data` argument
+
+```{r, eval=FALSE, purl=FALSE}
+ggplot(data = surveys_complete)
+```
+
+- define an aesthetic mapping (using the aesthetic (`aes`) function), by
+  selecting the variables to be plotted and specifying how to present them in the
+  graph, e.g., as x/y positions or characteristics such as size, shape, color, etc.
+
+```{r, eval=FALSE, purl=FALSE}
+ggplot(data = surveys_complete, mapping = aes(x = species, y = fork_length_cm))
+```
+
+- add 'geoms' – graphical representations of the data in the plot (points,
+  lines, bars). **`ggplot2`** offers many different geoms; we will use some
+  common ones today, including:
+  
+  - `geom_point()` for scatter plots, dot plots, etc.
+  - `geom_boxplot()` for, well, boxplots!
+  - `geom_line()` for trend lines, time series, etc.
+
+To add a geom to the plot use `+` operator. Because we have two continuous
+variables, let's use `geom_point()` first:
+
+```{r first-ggplot, purl=FALSE}
+ggplot(data = surveys_complete, aes(x = species, y = fork_length_cm)) +
+  geom_point()
+```
+
+The `+` in the **`ggplot2`** package is particularly useful because it allows
+you to modify existing `ggplot` objects. This means you can easily set up plot
+"templates" and conveniently explore different types of plots, so the above
+plot can also be generated with code like this:
+
+```{r, eval=FALSE, purl=FALSE}
+# Assign plot to a variable
+surveys_plot <- ggplot(data = surveys_complete,
+                       mapping = aes(x = species, y = fork_length_cm))
+
+# Draw the plot
+surveys_plot +
+    geom_point()
+```
+
+```{r, eval=FALSE, purl=TRUE, echo=FALSE}
+## Create a ggplot and draw it.
+surveys_plot <- ggplot(data = surveys_complete,
+                       aes(x = species, y = fork_length_cm))
+
+surveys_plot +
+  geom_point()
+```
+
+**Notes**
+
+- Anything you put in the `ggplot()` function can be seen by any geom layers
+  that you add (i.e., these are universal plot settings). This includes the x-
+  and y-axis you set up in `aes()`.
+- You can also specify aesthetics for a given geom independently of the
+  aesthetics defined globally in the `ggplot()` function.
+- The `+` sign used to add layers must be placed at the end of each line
+  containing a layer. If, instead, the `+` sign is added in the line before the
+  other layer, **`ggplot2`** will not add the new layer and will return an error
+  message.
+- You may notice that we sometimes reference 'ggplot2' and sometimes 'ggplot'.
+  To clarify, 'ggplot2' is the name of the most recent version of the package.
+  However, any time we call the function itself, it's just called 'ggplot'.
+- The previous version of the **`ggplot2`** package, called **`ggplot`**,
+  which also contained the `ggplot()` function is now unsupported and has
+  been removed from CRAN in order to reduce accidental installations
+  and further confusion.
+
+```{r, eval=FALSE, purl=FALSE}
+# This is the correct syntax for adding layers
+surveys_plot +
+  geom_point()
+
+# This will not add the new layer and will return an error message
+surveys_plot
+  + geom_point()
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Building your plots iteratively
+
+Building plots with **`ggplot2`** is typically an iterative process. We start by
+defining the dataset we'll use, lay out the axes, and choose a geom:
+
+```{r create-ggplot-object, purl=FALSE}
+ggplot(data = surveys_complete, aes(x = species, y = fork_length_cm)) +
+    geom_point()
+```
+
+Then, we start modifying this plot to extract more information from it. For
+instance, we can add transparency (`alpha`) to avoid overplotting:
+
+```{r adding-transparency, purl=FALSE}
+ggplot(data = surveys_complete, aes(x = species, y = fork_length_cm)) +
+    geom_point(alpha = 0.1)
+```
+
+We can also add colors for all the points:
+
+```{r adding-colors, purl=FALSE}
+ggplot(data = surveys_complete, mapping = aes(x = species, y = fork_length_cm)) +
+    geom_point(alpha = 0.1, color = "blue")
+```
+
+Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species`**:
+
+```{r color-by-species-1, purl=FALSE}
+ggplot(data = surveys_complete, mapping = aes(x = species, y = fork_length_cm)) +
+    geom_point(alpha = 0.1, aes(color = fin_clip))
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge
+
+Use what you just learned to create a scatter plot of `fork_length_cm` over
+`stat_week_sun_sat` with the `sex` showing in different colors.
+Is this a good way to show this type of data?
+
+:::::::: solution
+
+```{r scatter-challenge-answer, answer=TRUE, purl=FALSE}
+ggplot(data = surveys_complete,
+       mapping = aes(x = stat_week_sun_sat, y = fork_length_cm)) +
+   geom_point(aes(color = sex))
+```
+
+:::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+```{r scatter-challenge, echo=FALSE, eval=FALSE, purl=TRUE}
+### Challenge with scatter plot:
+##
+##  Use what you just learned to create a scatter plot of `weight`
+## over `species_id` with the plot types showing in different colors.
+## Is this a good way to show this type of data?
+```
+
+## Boxplot
+
+We can use boxplots to visualize the distribution of weight within each species:
+
+```{r boxplot, purl=FALSE}
+ggplot(data = surveys_complete, mapping = aes(x = species, y = fork_length_cm)) +
+    geom_boxplot()
+```
+
+By adding points to the boxplot, we can have a better idea of the number of
+measurements and of their distribution. Because the boxplot will show the outliers
+by default these points will be plotted twice -- by `geom_boxplot` and
+`geom_jitter`. To avoid this we must specify that no outliers should be added
+to the boxplot by specifying `outlier.shape = NA`.
+
+```{r boxplot-with-points, purl=FALSE}
+ggplot(data = surveys_complete, mapping = aes(x = species, y = fork_length_cm)) +
+    geom_boxplot(outlier.shape = NA) +
+    geom_jitter(alpha = 0.3, color = "tomato") 
+```
+
+Notice how the boxplot layer is behind the jitter layer? What do you need to
+change in the code to put the boxplot in front of the points such that it's not
+hidden?
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenges
+
+Boxplots are useful summaries, but hide the *shape* of the distribution. For
+example, if there is a bimodal distribution, it would not be observed with a
+boxplot. An alternative to the boxplot is the violin plot (sometimes known as
+a beanplot), where the shape (of the density of points) is drawn.
+
+- Replace the box plot with a violin plot; see `geom_violin()`.
+
+
+:::::::: solution
+
+```{r, answer=TRUE, purl=FALSE}
+ggplot(data = surveys_complete, mapping = aes(x = species, y = fork_length_cm)) +
+geom_jitter(alpha = 0.3, color = "tomato") +
+geom_violin() 
+```
+
+:::::::::::::::::
+
+In many types of data, it is important to consider the *scale* of the
+observations.  For example, it may be worth changing the scale of the axis to
+better distribute the observations in the space of the plot.  Changing the scale
+of the axes is done similarly to adding/modifying other components (i.e., by
+incrementally adding commands). Try making these modifications:
+
+- Represent weight on the log~10~ scale; see `scale_y_log10()`.
+
+:::::::: solution
+
+```{r, answer=TRUE, purl=FALSE}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+scale_y_log10() +
+geom_jitter(alpha = 0.3, color = "tomato") +
+geom_boxplot(outlier.shape = NA)
+```
+
+:::::::::::::::::
+
+## 9:30-9:45 BREAK
+
+## 9:45-11:00 Visuzliation with ggplot
+
+## Plotting time series data
+
+Let's calculate number of counts per year for each wria. First we need
+to group the data and count records within each group:
+
+```{r, purl=FALSE}
+year_week_counts <- surveys_complete %>%
+  count(run_year, stat_week_sun_sat, wria)
+```
+
+Timelapse data can be visualized as a line plot with years on the x-axis and
+counts on the y-axis:
+
+```{r first-time-series, purl=FALSE}
+ggplot(data = year_week_counts, aes(x = stat_week_sun_sat, y = n)) +
+     geom_line()
+
+```
+
+Unfortunately, this does not work because we plotted data for all the years
+together. We need to tell ggplot to draw a line for each year by modifying
+the aesthetic function to include `group = run_year`:
+
+```{r time-series-by-species, purl=FALSE}
+ggplot(data = year_week_counts, aes(x = stat_week_sun_sat, y = n, group = run_year )) +
+    geom_line()
+
+```
+
+We will be able to distinguish years in the plot if we add colors (using
+`color` also automatically groups the data):
+
+```{r time-series-with-colors, purl=FALSE}
+ggplot(data = year_week_counts, aes(x = stat_week_sun_sat, y = n, color = run_year )) +
+    geom_line()
+
+# we need to factor year
+class( year_week_counts$run_year)
+ year_week_counts$run_year <- factor(year_week_counts$run_year)
+
+ ggplot(data = year_week_counts, aes(x = stat_week_sun_sat, y = n, color = run_year )) +
+    geom_line()
+```
+
+## Integrating the pipe operator with ggplot2
+
+In the previous lesson, we saw how to use the pipe operator `%>%` to use
+different functions in a sequence and create a coherent workflow.
+We can also use the pipe operator to pass the `data` argument to the
+`ggplot()` function. The hard part is to remember that to build your ggplot,
+you need to use `+` and not `%>%`.
+
+```{r integrating-the-pipe, purl=FALSE}
+yearly_counts %>%
+    ggplot(mapping = aes(x = year, y = n, color = genus)) +
+    geom_line()
+```
+
+The pipe operator can also be used to link data manipulation with consequent data visualization.
+
+```{r pipes-and-manipulation, purl=FALSE}
+yearly_counts_graph <- surveys_complete %>%
+    count(year, genus) %>%
+    ggplot(mapping = aes(x = year, y = n, color = genus)) +
+    geom_line()
+
+yearly_counts_graph
+```
+
+## Faceting
+
+`ggplot` has a special technique called *faceting* that allows the user to split
+one plot into multiple plots based on a factor included in the dataset. We will
+use it to make a time series plot for each genus:
+
+```{r first-facet, purl=FALSE}
+ggplot(data = yearly_counts, aes(x = year, y = n)) +
+    geom_line() +
+    facet_wrap(facets = vars(genus))
+```
+
+Now we would like to split the line in each plot by the sex of each individual
+measured. To do that we need to make counts in the data frame grouped by `year`,
+`genus`, and `sex`:
+
+```{r, purl=FALSE}
+ yearly_sex_counts <- surveys_complete %>%
+                      count(year, genus, sex)
+```
+
+We can now make the faceted plot by splitting further by sex using `color`
+(within a single plot):
+
+```{r facet-by-genus-and-sex, purl=FALSE}
+ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+  geom_line() +
+  facet_wrap(facets =  vars(genus))
+```
+
+We can also facet both by sex and genus:
+
+```{r average-weight-time-facet-both, purl=FALSE, fig.width=9.5}
+ggplot(data = yearly_sex_counts,
+       mapping = aes(x = year, y = n, color = sex)) +
+  geom_line() +
+  facet_grid(rows = vars(sex), cols =  vars(genus))
+```
+
+You can also organise the panels only by rows (or only by columns):
+
+```{r average-weight-time-facet-sex-rows, purl=FALSE, fig.height=8.5, fig.width=8}
+# One column, facet by rows
+ggplot(data = yearly_sex_counts,
+       mapping = aes(x = year, y = n, color = sex)) +
+  geom_line() +
+  facet_grid(rows = vars(genus))
+```
+
+```{r average-weight-time-facet-sex-columns, purl=FALSE, fig.width=9.5, fig.height=5}
+# One row, facet by column
+ggplot(data = yearly_sex_counts,
+       mapping = aes(x = year, y = n, color = sex)) +
+  geom_line() +
+  facet_grid(cols = vars(genus))
+```
+
+**Note:**
+`ggplot2` before version 3.0.0 used formulas to specify how plots are faceted.
+If you encounter `facet_grid`/`wrap(...)` code containing `~`, please read
+[https://ggplot2.tidyverse.org/news/#tidy-evaluation](https://ggplot2.tidyverse.org/news/#tidy-evaluation).
+
+## **`ggplot2`** themes
+
+Usually plots with white background look more readable when printed.
+Every single component of a `ggplot` graph can be customized using the generic
+`theme()` function, as we will see below. However, there are pre-loaded themes
+available that change the overall appearance of the graph without much effort.
+
+For example, we can change our previous graph to have a simpler white background
+using the `theme_bw()` function:
+
+```{r facet-by-species-and-sex-white-bg, purl=FALSE}
+ ggplot(data = yearly_sex_counts,
+        mapping = aes(x = year, y = n, color = sex)) +
+     geom_line() +
+     facet_wrap(vars(genus)) +
+     theme_bw()
+```
+
+In addition to `theme_bw()`, which changes the plot background to white, **`ggplot2`**
+comes with several other themes which can be useful to quickly change the look
+of your visualization. The complete list of themes is available
+at [https://ggplot2.tidyverse.org/reference/ggtheme.html](https://ggplot2.tidyverse.org/reference/ggtheme.html). `theme_minimal()` and
+`theme_light()` are popular, and `theme_void()` can be useful as a starting
+point to create a new hand-crafted theme.
+
+The
+[ggthemes](https://jrnold.github.io/ggthemes/reference/index.html) package
+provides a wide variety of options.
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge
+
+Use what you just learned to create a plot that depicts how the average weight
+of each species changes through the years.
+
+:::::::: solution
+
+```{r average-weight-time-series, answer=TRUE, purl=FALSE}
+yearly_weight <- surveys_complete %>%
+                group_by(year, species_id) %>%
+                 summarize(avg_weight = mean(weight))
+ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
+   geom_line() +
+   facet_wrap(vars(species_id)) +
+   theme_bw()
+```
+
+:::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+```{r, eval=FALSE, purl=TRUE, echo=FALSE}
+### Plotting time series challenge:
+##
+##  Use what you just learned to create a plot that depicts how the
+##  average weight of each species changes through the years.
+
+```
+
+## 11:00-11:15 BREAK
+
+## 11:15-12pm Visualization with ggplot2
+
+## Customization
+
+Take a look at the [**`ggplot2`** cheat sheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf), and
+think of ways you could improve the plot.
+
+Now, let's change names of axes to something more informative than 'year'
+and 'n' and add a title to the figure:
+
+```{r number-species-year-with-right-labels, purl=FALSE}
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(vars(genus)) +
+    labs(title = "Observed genera through time",
+         x = "Year of observation",
+         y = "Number of individuals") +
+    theme_bw()
+```
+
+The axes have more informative names, but their readability can be improved by
+increasing the font size. This can be done with the generic `theme()` function:
+
+```{r number-species-year-with-right-labels-xfont-size, purl=FALSE}
+ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(vars(genus)) +
+    labs(title = "Observed genera through time",
+        x = "Year of observation",
+        y = "Number of individuals") +
+    theme_bw() +
+    theme(text=element_text(size = 16))
+```
+
+Note that it is also possible to change the fonts of your plots. If you are on
+Windows, you may have to install
+the [**`extrafont`** package](https://github.com/wch/extrafont), and follow the
+instructions included in the README for this package.
+
+After our manipulations, you may notice that the values on the x-axis are still
+not properly readable. Let's change the orientation of the labels and adjust
+them vertically and horizontally so they don't overlap. You can use a 90 degree
+angle, or experiment to find the appropriate angle for diagonally oriented
+labels. We can also modify the facet label text (`strip.text`) to italicize the genus
+names:
+
+```{r number-species-year-with-theme, purl=FALSE}
+ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(vars(genus)) +
+    labs(title = "Observed genera through time",
+        x = "Year of observation",
+        y = "Number of individuals") +
+    theme_bw() +
+    theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
+                        axis.text.y = element_text(colour = "grey20", size = 12),
+                        strip.text = element_text(face = "italic"),
+                        text = element_text(size = 16))
+```
+
+If you like the changes you created better than the default theme, you can save
+them as an object to be able to easily apply them to other plots you may create:
+
+```{r number-species-year-with-right-labels-xfont-orientation, purl=FALSE}
+grey_theme <- theme(axis.text.x = element_text(colour="grey20", size = 12,
+                                               angle = 90, hjust = 0.5,
+                                               vjust = 0.5),
+                    axis.text.y = element_text(colour = "grey20", size = 12),
+                    text=element_text(size = 16))
+
+ggplot(surveys_complete, aes(x = species_id, y = hindfoot_length)) +
+    geom_boxplot() +
+    grey_theme
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge
+
+With all of this information in hand, please take another five minutes to either
+improve one of the plots generated in this exercise or create a beautiful graph
+of your own. Use the RStudio [**`ggplot2`** cheat sheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf)
+for inspiration.
+
+Here are some ideas:
+
+- See if you can change the thickness of the lines.
+- Can you find a way to change the name of the legend? What about its labels?
+- Try using a different color palette (see
+  [https://r-graphics.org/chapter-colors](https://r-graphics.org/chapter-colors)).
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Arranging plots
+
+Faceting is a great tool for splitting one plot into multiple plots, but
+sometimes you may want to produce a single figure that contains multiple plots
+using different variables or even different data frames. The **`patchwork`**
+package allows us to combine separate ggplots into a single figure while keeping
+everything aligned properly. Like most R packages, we can install `patchwork`
+from CRAN, the R package repository:
+
+```{r patchwork-install, eval=FALSE}
+install.packages("patchwork")
+```
+
+After you have loaded the `patchwork` package you can use `+` to place plots
+next to each other, `/` to arrange them vertically, and `plot_layout()` to
+determine how much space each plot uses:
+
+```{r patchwork-example, message=FALSE, purl=FALSE, fig.width=10}
+library(patchwork)
+
+plot_weight <- ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
+  geom_boxplot() +
+  labs(x = "Species", y = expression(log[10](Weight))) +
+  scale_y_log10()
+
+plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
+  geom_line() +
+  labs(x = "Year", y = "Abundance")
+
+plot_weight / plot_count + plot_layout(heights = c(3, 2))
+```
+
+You can also use parentheses `()` to create more complex layouts. There are
+many useful examples on the [patchwork website](https://patchwork.data-imaginist.com/)
+
+## Exporting plots
+
+After creating your plot, you can save it to a file in your favorite format. The
+Export tab in the **Plot** pane in RStudio will save your plots at low
+resolution, which will not be accepted by many journals and will not scale well
+for posters. The [**`ggplot2`** extensions website](https://exts.ggplot2.tidyverse.org/) provides a list
+of packages that extend the capabilities of **`ggplot2`**, including additional
+themes.
+
+Instead, use the `ggsave()` function, which allows you to easily change the
+dimension and resolution of your plot by adjusting the appropriate arguments
+(`width`, `height` and `dpi`):
+
+```{r ggsave-example, eval=FALSE, purl=FALSE}
+my_plot <- ggplot(data = yearly_sex_counts,
+                  aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(vars(genus)) +
+    labs(title = "Observed genera through time",
+        x = "Year of observation",
+        y = "Number of individuals") +
+    theme_bw() +
+    theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90,
+                                     hjust = 0.5, vjust = 0.5),
+          axis.text.y = element_text(colour = "grey20", size = 12),
+          text = element_text(size = 16))
+
+ggsave("name_of_file.png", my_plot, width = 15, height = 10)
+
+## This also works for plots combined with patchwork
+plot_combined <- plot_weight / plot_count + plot_layout(heights = c(3, 2))
+ggsave("plot_combined.png", plot_combined, width = 10, dpi = 300)
+```
+
+Note: The parameters `width` and `height` also determine the font size in the
+saved plot.
+
+```{r final-challenge, eval=FALSE, purl=TRUE, echo=FALSE}
+### Final plotting challenge:
+##  With all of this information in hand, please take another five
+##  minutes to either improve one of the plots generated in this
+##  exercise or create a beautiful graph of your own. Use the RStudio
+##  ggplot2 cheat sheet for inspiration:
+##  https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf
+```
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- start simple and build your plots iteratively
+- the `ggplot()` function initiates a plot, and `geom_` functions add representations of your data
+- use `aes()` when mapping a variable from the data to a part of the plot
+- use `facet_` to partition a plot into multiple plots based on a factor included in the dataset
+- use premade `theme_` functions to broadly change appearance, and the `theme()` function to fine-tune
+- the `patchwork` library can combine separate plots into a single figure
+- use `ggsave()` to save plots in your favorite format and dimensions
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+# END OF DAY 3!! Congratulations!
+
+
+
+### EXTRA LESSON TO KEEP FOR REFERENCE ###
+
+## 9:45-10:15: Working with dates
+
+- Note: I'm going to diverge from the course material here since our dates are already correctly formatted.
+
+A common issue that new (and experienced!) R users have is converting
+date and time information into a variable that is suitable for analyses.
+One way to store date information is to store each component of the date
+in a separate column. Using `str()`, we can confirm that our data frame has one combined column for date.
+
+Let's separate our dates into separate columns.
+
+```{r, eval=FALSE, purl=FALSE}
+str(surveys_complete)
+ 
+```
+
+
+We are going to use the `ymd()` function from the package
+**`lubridate`** (which belongs to the **`tidyverse`**; learn more
+[here](https://www.tidyverse.org/)). **`lubridate`** gets installed as
+part as the **`tidyverse`** installation. When you load the
+**`tidyverse`** (`library(tidyverse)`), the core packages (the packages
+used in most data analyses) get loaded. **`lubridate`** however does not
+belong to the core tidyverse, so you have to load it explicitly with
+`library(lubridate)`
+
+Start by loading the required package:
+
+```{r load-package, message=FALSE, purl=FALSE}
+library(lubridate)
+```
+
+The **`lubridate`** package has many useful functions for working with
+dates. These can help you extract dates from different string
+representations, convert between timezones, calculate time differences
+and more. You can find an overview of them in the [lubridate cheat
+sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf).
+
+Here we will use the function `ymd()`, which takes a vector representing
+year, month, and day, and converts it to a `Date` vector. `Date` is a
+class of data recognized by R as being a date and can be manipulated as
+such. The argument that the function requires is flexible, but, as a
+best practice, is a character vector formatted as "YYYY-MM-DD".
+
+Let's create a date object and inspect the structure:
+
+```{r, purl=FALSE}
+my_date <- ymd("2015-01-01")
+str(my_date)
+```
+
+Now let's paste the year, month, and day separately - we get the same
+result:
+
+```{r, purl=FALSE}
+# sep indicates the character to use to separate each component
+my_date <- ymd(paste("2015", "1", "1", sep = "-")) 
+str(my_date)
+```
+
+Now we apply this function to the surveys dataset.
+
+
+```{r, purl=FALSE}
+ymd(surveys$survey_date)
+
+# We can now save this formatted data to our surveys object so we can work with it further
+surveys_complete$survey_date <- ymd(surveys_complete$survey_date)
+
+# check to make sure it is correctly formatted as a date using class
+class(surveys_complete$survey_date)
+```
+One useful thing you can do with the lubridate package is 
+
+
+::: keypoints
+-   Use `read.csv` to read tabular data in R.
+-   A data frame is the representation of data in the format of a table
+    where the columns are vectors that all have the same length.
+-   `dplyr` provides many methods for inspecting and summarizing data in
+    data frames.
+-   Use factors to represent categorical data in R.
+-   The **`lubridate`** package has many useful functions for working
+    with dates.
+:::
+
