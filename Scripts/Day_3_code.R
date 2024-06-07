@@ -86,7 +86,75 @@ ggplot(data = yearly_sex_counts,
                #cols = vars(species))
   theme_minimal()
 
+surveys_complete %>%
+  group_by(species, stat_week_sun_sat, wria) %>%
+  summarize(mean_fork_length = mean(fork_length_cm)) %>%
+  ggplot(aes(x = stat_week_sun_sat, y = mean_fork_length,
+             color = species)) + 
+  geom_line() +
+  facet_grid(rows = vars(species), cols = vars(wria)) + 
+  #facet_wrap(vars(species,wria))
+theme_minimal() +
+scale_color_manual(name = "Species",
+                   values = c("blue","orange", "green"))
 
+# change species order
+surveys_complete$species <- factor(surveys_complete$species,
+                           levels = c("Coho","Chum","Chinook"),
+                           ordered = TRUE)
+
+
+# Customize plots
+ggplot(data = yearly_sex_counts, 
+       aes(x = stat_week_sun_sat, y = n, color = sex)) +
+    geom_line() +
+  facet_wrap(vars(species)) +
+  labs(title = "Salmon Returns Through Time",
+       x = "Stat Week",
+       y = "Number of Fish Surveyed")+
+    theme_bw() +
+   theme(axis.text.x = element_text(colour="red",
+                                    size =20, angle = 90,
+                                    hjust = 0.5, vjust = 0.5),
+         axis.text.y = element_text(colour = "blue", size = 12),
+         strip.text = element_text(face = "italic"),
+         plot.title = element_text(hjust =0.1))
+
+custom_theme <-  theme(axis.text.x = element_text(colour="red",
+                                                  size =20, angle = 90,
+                                                  hjust = 0.5, vjust = 0.5),
+                       axis.text.y = element_text(colour = "blue", size = 12),
+                       strip.text = element_text(face = "italic"),
+                       plot.title = element_text(hjust =0.1))
+
+ggplot(data = yearly_sex_counts, 
+       aes(x = stat_week_sun_sat, y = n, color = sex)) +
+  geom_line() +
+  facet_wrap(vars(species)) +
+  labs(title = "Salmon Returns Through Time",
+       x = "Stat Week",
+       y = "Number of Fish Surveyed")+
+ # theme_bw() +
+  custom_theme
+
+class(custom_theme)
+save(custom_theme, file="custom_theme.Rdata")
+load(file = "custom_theme.Rdata")
+
+# Export plots
+plot_fork <- ggplot(surveys_complete,
+                    aes(x= species, y = fork_length_cm)) +
+  geom_boxplot()
+plot_stat_week <- ggplot(data = yearly_sex_counts,
+                         aes(x= stat_week_sun_sat, y =n)) +
+  geom_line()
+library(ggpubr)
+combined <- ggarrange(plot_fork, plot_stat_week, 
+                      ncol =1, nrow = 2)
+
+# save plot
+ggsave("plot_combined.png", 
+       combined, width = 10, dpi = 300)
 
 
   

@@ -2681,10 +2681,14 @@ stat_fork_length <- surveys_complete %>%
                 group_by (species, stat_week_sun_sat, wria) %>%
                  summarize(mean_fork_length = mean(fork_length_cm))
 
-ggplot(data = stat_fork_length, mapping = aes(x=stat_week_sun_sat, y= mean_fork_length)) +
+ggplot(data = stat_fork_length, mapping = aes(x=stat_week_sun_sat, y= mean_fork_length, color = species)) +
    geom_line() +
    facet_wrap(vars(species, wria)) +
-   theme_bw()
+   theme_bw()+
+  scale_color_manual( name = "Species", values = c("blue", "orange", "gray"))
+
+
+
 ```
 
 :::::::::::::::::
@@ -2767,6 +2771,8 @@ ggplot(surveys_complete, aes(x = species, y = fork_length_cm)) +
     geom_boxplot() +
     grey_theme
 ```
+
+
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -2861,6 +2867,23 @@ saved plot.
 - use `ggsave()` to save plots in your favorite format and dimensions
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+## final challenge
+
+```{r }
+
+ggplot(data = yearly_sex_counts, aes(x = stat_week_sun_sat, y = n, color = species)) +
+  geom_line() +
+  labs(title = "Species Returns over Time") +
+  scale_color_manual(name = "Species", values = c("blue", "orange","red")) +
+  theme(axis.text.x = element_text(size = 12, angle = 90), plot.title = element_text(face = "italic")) +
+scale_y_continuous(limits = c(0,50)) +
+  scale_x_continuous(limits = c(1,53))
+
+
+
+```
+
 
 # END OF DAY 3!! Congratulations!
 
