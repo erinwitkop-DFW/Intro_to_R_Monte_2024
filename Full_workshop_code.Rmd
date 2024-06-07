@@ -1336,6 +1336,19 @@ Challenge 1:
     behavior of `head(surveys)`, keeping just the first through 6th rows
     of the surveys dataset.
     
+```{r , }
+## 1.
+surveys_200 <- surveys[200, ]
+## 2.
+# Saving `n_rows` to improve readability and reduce duplication
+n_rows <- nrow(surveys)
+surveys_last <- surveys[n_rows, ]
+## 3.
+surveys_middle <- surveys[n_rows / 2, ]
+## 4.
+surveys_head <- surveys[-(7:n_rows), ]
+```
+
 Challenge 2:
 
 1.  Change the columns `species` and `wria` in the `surveys` data frame
@@ -1344,6 +1357,16 @@ Challenge 2:
 2.  Using the functions you learned before, can you find out...
 
 -   How many WRIAs are represented in the dataset?
+
+::: solution
+```{r, answer=TRUE, purl=FALSE}
+surveys$species <- factor(surveys$species)
+surveys$wria <- factor(surveys$wria)
+summary(surveys)
+nlevels(surveys$wria)
+
+##  How many WRIAs are represented in the dataset?
+```
 
 ### Converting factors
 
@@ -1770,7 +1793,7 @@ than 200.
 surveys_fork_length_mm <- surveys %>%
     filter(!is.na(fork_length_cm)) %>%
     mutate(fork_length_mm = fork_length_cm * 10) %>%
-    filter(fork_length_mm < 200) %>%
+   # filter(fork_length_mm < 200) %>%
     select(species, fork_length_mm)
 ```
 
@@ -2236,6 +2259,7 @@ If not still in the workspace, load the data we saved in the previous lesson.
 
 ```{r load-data, eval=FALSE, purl=FALSE}
 surveys_complete <- read_csv("Data/surveys_complete.csv")
+str(surveys_complete)
 ```
 
 ## Plotting with **`ggplot2`**
@@ -2479,7 +2503,7 @@ geom_boxplot(outlier.shape = NA)
 
 ## 9:30-9:45 BREAK
 
-## 9:45-11:00 Visuzliation with ggplot
+## 9:45-11:00 Visualization with ggplot
 
 ## Plotting time series data
 
@@ -2534,20 +2558,22 @@ We can also use the pipe operator to pass the `data` argument to the
 you need to use `+` and not `%>%`.
 
 ```{r integrating-the-pipe, purl=FALSE}
-yearly_counts %>%
-    ggplot(mapping = aes(x = year, y = n, color = genus)) +
+year_week_counts %>%
+    ggplot(mapping = aes(x = stat_week_sun_sat, y = n, color = run_year )) +
     geom_line()
+
+# need to fix factoring here
 ```
 
 The pipe operator can also be used to link data manipulation with consequent data visualization.
 
 ```{r pipes-and-manipulation, purl=FALSE}
-yearly_counts_graph <- surveys_complete %>%
-    count(year, genus) %>%
-    ggplot(mapping = aes(x = year, y = n, color = genus)) +
+year_week_counts_graph <-  surveys_complete %>%
+  count(run_year, stat_week_sun_sat, wria) %>%
+    ggplot(mapping = aes(x = stat_week_sun_sat, y = n, color = run_year )) +
     geom_line()
 
-yearly_counts_graph
+year_week_counts_graph
 ```
 
 ## Faceting
@@ -2557,9 +2583,9 @@ one plot into multiple plots based on a factor included in the dataset. We will
 use it to make a time series plot for each genus:
 
 ```{r first-facet, purl=FALSE}
-ggplot(data = yearly_counts, aes(x = year, y = n)) +
+ggplot(data = year_week_counts, aes(x = stat_week_sun_sat, y = n)) +
     geom_line() +
-    facet_wrap(facets = vars(genus))
+    facet_wrap(facets = vars(run_year))
 ```
 
 Now we would like to split the line in each plot by the sex of each individual
@@ -2568,25 +2594,25 @@ measured. To do that we need to make counts in the data frame grouped by `year`,
 
 ```{r, purl=FALSE}
  yearly_sex_counts <- surveys_complete %>%
-                      count(year, genus, sex)
+                      count(run_year, species, sex, stat_week_sun_sat)
 ```
 
 We can now make the faceted plot by splitting further by sex using `color`
 (within a single plot):
 
 ```{r facet-by-genus-and-sex, purl=FALSE}
-ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+ggplot(data = yearly_sex_counts, mapping = aes(x = stat_week_sun_sat, y = n, color = sex)) +
   geom_line() +
-  facet_wrap(facets =  vars(genus))
+  facet_wrap(facets =  vars(species))
 ```
 
 We can also facet both by sex and genus:
 
 ```{r average-weight-time-facet-both, purl=FALSE, fig.width=9.5}
 ggplot(data = yearly_sex_counts,
-       mapping = aes(x = year, y = n, color = sex)) +
+       mapping = aes(x = stat_week_sun_sat, y = n, color = sex)) +
   geom_line() +
-  facet_grid(rows = vars(sex), cols =  vars(genus))
+  facet_grid(rows = vars(sex), cols =  vars(species))
 ```
 
 You can also organise the panels only by rows (or only by columns):
@@ -2594,17 +2620,17 @@ You can also organise the panels only by rows (or only by columns):
 ```{r average-weight-time-facet-sex-rows, purl=FALSE, fig.height=8.5, fig.width=8}
 # One column, facet by rows
 ggplot(data = yearly_sex_counts,
-       mapping = aes(x = year, y = n, color = sex)) +
+       mapping = aes(x = stat_week_sun_sat, y = n, color = sex)) +
   geom_line() +
-  facet_grid(rows = vars(genus))
+  facet_grid(rows = vars(species))
 ```
 
 ```{r average-weight-time-facet-sex-columns, purl=FALSE, fig.width=9.5, fig.height=5}
 # One row, facet by column
 ggplot(data = yearly_sex_counts,
-       mapping = aes(x = year, y = n, color = sex)) +
+       mapping = aes(x = stat_week_sun_sat, y = n, color = sex)) +
   geom_line() +
-  facet_grid(cols = vars(genus))
+  facet_grid(cols = vars(species))
 ```
 
 **Note:**
@@ -2624,9 +2650,9 @@ using the `theme_bw()` function:
 
 ```{r facet-by-species-and-sex-white-bg, purl=FALSE}
  ggplot(data = yearly_sex_counts,
-        mapping = aes(x = year, y = n, color = sex)) +
+        mapping = aes(x = stat_week_sun_sat, y = n, color = sex)) +
      geom_line() +
-     facet_wrap(vars(genus)) +
+     facet_wrap(vars(species)) +
      theme_bw()
 ```
 
@@ -2645,32 +2671,25 @@ provides a wide variety of options.
 
 ### Challenge
 
-Use what you just learned to create a plot that depicts how the average weight
-of each species changes through the years.
+Use what you just learned to create a plot that depicts how the mean fork_lenth_cm
+of each species changes across stat weeks and wrias
 
 :::::::: solution
 
 ```{r average-weight-time-series, answer=TRUE, purl=FALSE}
-yearly_weight <- surveys_complete %>%
-                group_by(year, species_id) %>%
-                 summarize(avg_weight = mean(weight))
-ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
+stat_fork_length <- surveys_complete %>%
+                group_by (species, stat_week_sun_sat, wria) %>%
+                 summarize(mean_fork_length = mean(fork_length_cm))
+
+ggplot(data = stat_fork_length, mapping = aes(x=stat_week_sun_sat, y= mean_fork_length)) +
    geom_line() +
-   facet_wrap(vars(species_id)) +
+   facet_wrap(vars(species, wria)) +
    theme_bw()
 ```
 
 :::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-```{r, eval=FALSE, purl=TRUE, echo=FALSE}
-### Plotting time series challenge:
-##
-##  Use what you just learned to create a plot that depicts how the
-##  average weight of each species changes through the years.
-
-```
 
 ## 11:00-11:15 BREAK
 
@@ -2685,12 +2704,12 @@ Now, let's change names of axes to something more informative than 'year'
 and 'n' and add a title to the figure:
 
 ```{r number-species-year-with-right-labels, purl=FALSE}
-ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+ggplot(data = yearly_sex_counts, aes(x = stat_week_sun_sat, y = n, color = sex)) +
     geom_line() +
-    facet_wrap(vars(genus)) +
-    labs(title = "Observed genera through time",
-         x = "Year of observation",
-         y = "Number of individuals") +
+    facet_wrap(vars(species)) +
+    labs(title = "Salmon Returns Through Time",
+         x = "Stat Week",
+         y = "Number of Fish Surveyed") +
     theme_bw()
 ```
 
@@ -2698,13 +2717,13 @@ The axes have more informative names, but their readability can be improved by
 increasing the font size. This can be done with the generic `theme()` function:
 
 ```{r number-species-year-with-right-labels-xfont-size, purl=FALSE}
-ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+ggplot(data = yearly_sex_counts, aes(x = stat_week_sun_sat, y = n, color = sex)) +
     geom_line() +
-    facet_wrap(vars(genus)) +
-    labs(title = "Observed genera through time",
-        x = "Year of observation",
-        y = "Number of individuals") +
-    theme_bw() +
+    facet_wrap(vars(species)) +
+    labs(title = "Salmon Returns Through Time",
+         x = "Stat Week",
+         y = "Number of Fish Surveyed") +
+    theme_bw()
     theme(text=element_text(size = 16))
 ```
 
@@ -2721,12 +2740,12 @@ labels. We can also modify the facet label text (`strip.text`) to italicize the 
 names:
 
 ```{r number-species-year-with-theme, purl=FALSE}
-ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+ggplot(data = yearly_sex_counts, aes(x = stat_week_sun_sat, y = n, color = sex)) +
     geom_line() +
-    facet_wrap(vars(genus)) +
-    labs(title = "Observed genera through time",
-        x = "Year of observation",
-        y = "Number of individuals") +
+    facet_wrap(vars(species)) +
+    labs(title = "Salmon Returns Through Time",
+         x = "Stat Week",
+         y = "Number of Fish Surveyed") +
     theme_bw() +
     theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
                         axis.text.y = element_text(colour = "grey20", size = 12),
@@ -2744,7 +2763,7 @@ grey_theme <- theme(axis.text.x = element_text(colour="grey20", size = 12,
                     axis.text.y = element_text(colour = "grey20", size = 12),
                     text=element_text(size = 16))
 
-ggplot(surveys_complete, aes(x = species_id, y = hindfoot_length)) +
+ggplot(surveys_complete, aes(x = species, y = fork_length_cm)) +
     geom_boxplot() +
     grey_theme
 ```
@@ -2777,30 +2796,25 @@ everything aligned properly. Like most R packages, we can install `patchwork`
 from CRAN, the R package repository:
 
 ```{r patchwork-install, eval=FALSE}
-install.packages("patchwork")
+install.packages("ggpubr") # note the lesson wanted you to use patchwork
 ```
 
-After you have loaded the `patchwork` package you can use `+` to place plots
-next to each other, `/` to arrange them vertically, and `plot_layout()` to
-determine how much space each plot uses:
+
 
 ```{r patchwork-example, message=FALSE, purl=FALSE, fig.width=10}
-library(patchwork)
+library(ggpubvr)
 
-plot_weight <- ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
-  geom_boxplot() +
-  labs(x = "Species", y = expression(log[10](Weight))) +
-  scale_y_log10()
+plot_fork <- ggplot(surveys_complete, aes(x = species, y = fork_length_cm)) +
+    geom_boxplot()
 
-plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
+plot_stat_week <- ggplot(data = yearly_sex_counts, aes(x = stat_week_sun_sat, y = n, color = species)) +
   geom_line() +
-  labs(x = "Year", y = "Abundance")
+  labs(x = "Stat Week", y = "Number of Fish")
 
-plot_weight / plot_count + plot_layout(heights = c(3, 2))
+combined <- ggarrange(plot_fork, plot_stat_week, ncol = 1, nrow =2 )
 ```
 
-You can also use parentheses `()` to create more complex layouts. There are
-many useful examples on the [patchwork website](https://patchwork.data-imaginist.com/)
+
 
 ## Exporting plots
 
@@ -2816,24 +2830,12 @@ dimension and resolution of your plot by adjusting the appropriate arguments
 (`width`, `height` and `dpi`):
 
 ```{r ggsave-example, eval=FALSE, purl=FALSE}
-my_plot <- ggplot(data = yearly_sex_counts,
-                  aes(x = year, y = n, color = sex)) +
-    geom_line() +
-    facet_wrap(vars(genus)) +
-    labs(title = "Observed genera through time",
-        x = "Year of observation",
-        y = "Number of individuals") +
-    theme_bw() +
-    theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90,
-                                     hjust = 0.5, vjust = 0.5),
-          axis.text.y = element_text(colour = "grey20", size = 12),
-          text = element_text(size = 16))
 
-ggsave("name_of_file.png", my_plot, width = 15, height = 10)
+ggsave("Figures/plot_stat_week.png", plot_stat_week, width = 15, height = 10)
 
-## This also works for plots combined with patchwork
-plot_combined <- plot_weight / plot_count + plot_layout(heights = c(3, 2))
-ggsave("plot_combined.png", plot_combined, width = 10, dpi = 300)
+## This also works for plots combined with ggpubr
+combined <- ggarrange(plot_fork, plot_stat_week, ncol = 1, nrow =2 )
+ggsave("Figures/plot_combined.png", combined, width = 10, dpi = 300)
 ```
 
 Note: The parameters `width` and `height` also determine the font size in the
